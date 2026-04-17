@@ -1,0 +1,151 @@
+{
+  "llm_provider": "ollama",
+  "execution_mode": "langgraph",
+  "context_length": 16384,
+  "prompt_verbosity": "standard",
+  "temperature": 0.2,
+  "models": null,
+  "pi_model": "gpt-oss:20b",
+  "imaging_discussion_model": "gpt-oss:20b",
+  "imaging_execution_model": "gpt-oss:20b",
+  "statistician_discussion_model": "qwen3:8b",
+  "statistician_coding_model": "qwen3-coder:30b",
+  "critic_model": "qwen3:8b",
+  "hypothesis": "DCM patients show significantly lower LVEF than normal controls",
+  "dataset_path": "$BIO_DATA_ROOT/ACDC/database",
+  "dataset": {
+    "name": "acdc",
+    "domain": "cardiac_mri",
+    "modality": "Cine MRI (short-axis stack)",
+    "available_groups": [
+      "DCM",
+      "HCM",
+      "MINF",
+      "NOR",
+      "RV"
+    ],
+    "available_observations": [
+      "ED",
+      "ES"
+    ],
+    "patient_metadata_fields": [
+      "height",
+      "weight",
+      "ed_frame",
+      "es_frame",
+      "num_frames"
+    ],
+    "ground_truth_structures": [
+      "LV",
+      "RV",
+      "Myo"
+    ],
+    "domain_notes": "Cardiac MRI with temporal phases: ED (end-diastole) and ES (end-systole). LVEF = ((LVEDV - LVESV) / LVEDV) \u00d7 100. Patient groups: DCM (dilated cardiomyopathy), HCM (hypertrophic cardiomyopathy), MINF (myocardial infarction), NOR (normal controls), RV (right ventricle abnormality)."
+  },
+  "sat_cache_database": "$BIO_DATA_ROOT/sat_cache/acdc",
+  "use_ground_truth": false,
+  "enable_critic": true,
+  "enable_critic_phase1": false,
+  "enable_critic_phase3": false,
+  "sat_model_variant": null,
+  "run_phase1": true,
+  "run_phase2a": true,
+  "run_phase2b": true,
+  "run_phase3": true,
+  "output_path": "results/experiments/exp_20260304_023048_acdc_def_1st/cardiac_01_dcm_lvef_lower/run_000",
+  "experiment_name": "cardiac_01_dcm_lvef_lower",
+  "description": "Default configuration with 16k context window",
+  "analysis_constraints": null,
+  "max_transient_retries_per_phase": 1,
+  "plan": {
+    "feasibility": {
+      "status": "TESTABLE",
+      "invalid_subtype": null,
+      "reason": null,
+      "missing_requirements": []
+    },
+    "cohort_mode": "groups",
+    "groups": [
+      "DCM",
+      "NOR"
+    ],
+    "restrict_to": {},
+    "structures": [
+      "left heart ventricle"
+    ],
+    "observations": [
+      "ED",
+      "ES"
+    ],
+    "metrics": [
+      "LVEF"
+    ],
+    "statistical_test": "two-sample t-test",
+    "analysis_type": "group_difference",
+    "grouping_field": "group",
+    "group_spec": {
+      "type": "dataset",
+      "field": null,
+      "rule": null
+    },
+    "predictors": [],
+    "adjust_for": [],
+    "stratify_by": [],
+    "target_variables": {
+      "outcome": "LVEF",
+      "predictors": []
+    }
+  },
+  "verdict": {
+    "verdict": "YES",
+    "evidence_label": "SUPPORTED",
+    "p_value": 7.477333222870397e-31,
+    "effect_size": -8.73425997235385,
+    "test_used": "two-sample t-test",
+    "sample_sizes": {
+      "DCM": 30,
+      "NOR": 30
+    },
+    "confidence": "high",
+    "reasoning": "The extremely significant p\u2011value and large, correctly\u2011directed effect size confirm the hypothesis.",
+    "computed_evidence_label": "SUPPORTED"
+  },
+  "workflow_audit": {
+    "phase_status": {
+      "phase1": {
+        "status": "passed",
+        "timestamp_utc": "2026-03-04T09:18:14.341463+00:00",
+        "details": {
+          "contract_repair_count": 0,
+          "correction_attempted": false,
+          "correction_success": null
+        }
+      },
+      "phase2a": {
+        "status": "passed",
+        "timestamp_utc": "2026-03-04T09:19:58.681178+00:00",
+        "details": {
+          "identifier_count": 120,
+          "correction_attempted": false,
+          "correction_success": null
+        }
+      },
+      "phase2b": {
+        "status": "passed",
+        "timestamp_utc": "2026-03-04T09:21:29.321228+00:00",
+        "details": {
+          "correction_attempted": false,
+          "correction_success": null
+        }
+      },
+      "phase3": {
+        "status": "passed",
+        "timestamp_utc": "2026-03-04T09:43:38.454229+00:00",
+        "details": {
+          "correction_attempted": false,
+          "correction_success": null
+        }
+      }
+    }
+  }
+}

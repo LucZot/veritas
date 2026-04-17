@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "VERITAS: Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing via Agentic Systems"
+version: 1.1.0
+date-released: "2026-04-14"
+license: Apache-2.0
+repository-code: "https://github.com/LucZot/veritas"
+url: "https://github.com/LucZot/veritas"
+abstract: >
+  VERITAS is a multi-agent framework for automated biomedical hypothesis testing
+  on medical imaging datasets. It implements a four-phase agentic pipeline
+  (hypothesis formulation, imaging analysis, statistical analysis, interpretation)
+  with a deterministic Evidence Classification Operator and full artifact auditability.
+authors:
+  - family-names: Stoffl
+    given-names: Lucas
+  - family-names: Wiestler
+    given-names: Benedikt
+  - family-names: Paetzold
+    given-names: Johannes C.
+preferred-citation:
+  type: article
+  title: "VERITAS: Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing via Agentic Systems"
+  authors:
+    - family-names: Stoffl
+      given-names: Lucas
+    - family-names: Wiestler
+      given-names: Benedikt
+    - family-names: Paetzold
+      given-names: Johannes C.
+  year: 2026
+  url: "https://arxiv.org/abs/2604.12144"
+  journal: "arXiv preprint"

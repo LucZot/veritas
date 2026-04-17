@@ -1,0 +1,32 @@
+VERITAS — Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing
+                              via Agentic Systems
+Copyright 2026 Lucas Stoffl, Benedikt Wiestler, Johannes Paetzold
+
+This product is licensed under the Apache License, Version 2.0 (the "License");
+see LICENSE for the full terms.
+
+--------------------------------------------------------------------------------
+Third-party software
+--------------------------------------------------------------------------------
+
+This product includes software derived from Virtual Lab
+(https://github.com/zou-group/virtual-lab), specifically the agent and
+multi-agent meeting primitives in src/veritas/agent.py and src/veritas/meetings/.
+
+  Virtual Lab
+  Copyright (c) 2025 Kyle Swanson
+  Released under the MIT License.
+
+The MIT license requires that the original copyright notice be retained in
+substantial portions of the derived work; this NOTICE serves that purpose.
+
+--------------------------------------------------------------------------------
+
+This product also depends on (but does not redistribute) the following projects.
+Each remains under its own license; see the upstream repositories for terms:
+
+  - SAT (Segment Anything for Medical Imaging) — https://github.com/zhaoziheng/SAT
+  - LangGraph                                  — https://github.com/langchain-ai/langgraph
+  - MCP (Model Context Protocol) Python SDK    — https://github.com/modelcontextprotocol/python-sdk
+  - Ollama                                     — https://github.com/ollama/ollama
+  - OpenRouter                                 — https://openrouter.ai

@@ -1,0 +1,6 @@
+{
+  "phase": "phase2b_statistics",
+  "run_uuid": "e9351dfe-fddd-4ab7-99c4-071e571db586",
+  "phase2b_start_ts": 1772616003.631427,
+  "expected_results_path": "$HOME/bio-mlab/results/experiments/exp_20260304_023048_acdc_def_1st/cardiac_01_dcm_lvef_lower/run_000/phase2b_statistical_analysis/workspace/data/statistical_results.json"
+}

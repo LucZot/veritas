@@ -1,0 +1,23 @@
+# MCP Protocol
+mcp>=1.0.0
+
+# Deep Learning & SAT Requirements (pinned versions from SAT repo)
+torch==2.5.1                    # SAT requirement
+transformers==4.57.1            # SAT text encoder
+einops==0.6.1                   # SAT tensor operations
+positional_encodings==6.0.1     # SAT positional encoding
+
+# Medical Imaging
+nibabel>=4.0.2                  # NIfTI file I/O (SAT uses 4.0.2)
+monai==1.1.0                    # SAT medical imaging (exact version)
+
+# Scientific Computing
+numpy<2.0.0                     # SAT compatibility (numpy 2.x breaks SAT)
+scipy>=1.10.0
+pandas                          # Statistics and data analysis
+
+# Checkpoint Management
+huggingface_hub>=0.16.0         # Model downloading
+
+# Utilities
+tqdm>=4.65.0                    # Progress bars

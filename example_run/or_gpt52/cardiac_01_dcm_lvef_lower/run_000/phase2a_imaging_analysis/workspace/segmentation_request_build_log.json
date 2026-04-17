@@ -1,0 +1,25 @@
+{
+  "dataset": "acdc",
+  "plan_groups": [
+    "DCM",
+    "NOR"
+  ],
+  "plan_observations": [
+    "ED",
+    "ES"
+  ],
+  "n_identifiers": 120,
+  "group_patient_counts": {
+    "DCM": 30,
+    "NOR": 30
+  },
+  "group_included_patient_counts": {
+    "DCM": 30,
+    "NOR": 30
+  },
+  "n_excluded_patients": 0,
+  "excluded_patients_preview": [],
+  "n_warnings": 0,
+  "warnings_preview": [],
+  "note": "Patients are included only if ALL required observations are present (ED+ES pairing enforced)."
+}

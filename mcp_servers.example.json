@@ -1,0 +1,45 @@
+{
+  "_comment": "MCP server config for VERITAS. Copy to mcp_servers.json and edit.",
+  "_setup": {
+    "code_execution": "Run: bash scripts/setup_code_execution.sh",
+    "sat":            "Run: bash scripts/setup_sat.sh — it writes the resolved 'sat' block into mcp_servers.json with detected absolute paths (no env vars needed)."
+  },
+  "_paths": {
+    "info": "You can either (a) put absolute paths directly into the values below, or (b) keep ${VAR} placeholders and export those vars before launching VERITAS.",
+    "vars_used_below": [
+      "SAT_PYTHON          — path to Python in your SAT conda env (e.g. /home/you/.conda/envs/sat/bin/python)",
+      "SAT_REPO_PATH       — path to the cloned SAT repository (e.g. /home/you/SAT)",
+      "SAT_CHECKPOINT_DIR  — path to downloaded checkpoints (e.g. /home/you/SAT/checkpoints)",
+      "BIO_DATA_ROOT       — root directory containing your imaging datasets (e.g. /data/medical)"
+    ]
+  },
+
+  "servers": [
+    {
+      "name": "code_execution",
+      "_description": "Sandboxed Python execution for statistical analysis (Phase 2B). Required for all VERITAS runs.",
+      "command": "python",
+      "args": ["mcp_servers/code_execution/code_execution_server.py"],
+      "env": {
+        "CODE_EXEC_OUTPUT_DIR": "/tmp/veritas_code_execution",
+        "CODE_EXEC_TIMEOUT": "180",
+        "CODE_EXEC_MAX_MEMORY_MB": "65536",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "name": "sat",
+      "_description": "SAT medical-image segmentation (Phase 2A). Optional — only needed for runs on raw imaging datasets.",
+      "command": "${SAT_PYTHON}",
+      "args": ["mcp_servers/sat_segmentation/sat_server.py"],
+      "env": {
+        "SAT_REPO_PATH": "${SAT_REPO_PATH}",
+        "SAT_CHECKPOINT_DIR": "${SAT_CHECKPOINT_DIR}",
+        "DATASET_PATH": "${BIO_DATA_ROOT}",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONPATH": "mcp_servers/sat_segmentation:${SAT_REPO_PATH}"
+      }
+    }
+  ]
+}

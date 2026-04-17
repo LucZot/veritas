@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "veritas"
+dynamic = ["version"]
+authors = [
+    { name = "Lucas Stoffl" },
+    { name = "Benedikt Wiestler" },
+    { name = "Johannes Paetzold" },
+]
+maintainers = [
+    { name = "Lucas Stoffl" },
+]
+description = "VERITAS: Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing via Agentic Systems."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+dependencies = [
+    "autopep8",
+    "nest-asyncio",
+    "requests",
+    "tiktoken",
+    "tqdm",
+    "typed-argument-parser",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+keywords = [
+    "veritas",
+    "large language model",
+    "LLM",
+    "hypothesis testing",
+    "medical imaging",
+    "multi-agent systems",
+]
+
+[project.optional-dependencies]
+ollama = [
+    "langchain-core>=0.3.0",
+    "langchain-ollama>=0.2.0",
+    "langchain-community>=0.3.0",
+]
+openrouter = [
+    "langchain-core>=0.3.0",
+    "langchain-openai>=0.2.0",
+]
+mcp = [
+    "mcp>=1.0.0",
+    "httpx>=0.27.0",
+]
+langgraph = [
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint>=2.0.0",
+]
+vision = [
+    "Pillow>=10.0.0",            # Image loading/saving
+    "numpy>=1.24.0",             # Array operations
+    "matplotlib>=3.7.0",         # Visualization
+    "nibabel>=5.0.0",            # NIfTI file I/O
+    "SimpleITK>=2.3.0",          # Medical image processing
+    "scipy>=1.10.0",             # Resampling, measurements
+]
+all = [
+    "veritas[ollama,openrouter,langgraph,mcp,vision]",
+]
+
+[tool.hatch.version]
+path = "src/veritas/__about__.py"
+
+[project.urls]
+Homepage = "https://github.com/LucZot/veritas"
+Paper = "https://arxiv.org/abs/2604.12144"
+Issues = "https://github.com/LucZot/veritas/issues"

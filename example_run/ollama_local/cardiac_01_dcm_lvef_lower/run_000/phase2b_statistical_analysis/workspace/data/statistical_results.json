@@ -1,0 +1,32 @@
+{
+  "analysis_type": "group_difference",
+  "test_performed": "two-sample t-test",
+  "p_value": 7.477333222870397e-31,
+  "effect_size": -8.73425997235385,
+  "effect_size_type": "cohens_d",
+  "n_total": 60,
+  "sample_sizes": {
+    "DCM": 30,
+    "NOR": 30
+  },
+  "variables_tested": {
+    "outcome": "LVEF",
+    "predictors": []
+  },
+  "group_statistics": {
+    "DCM": {
+      "mean": 18.487730383075714,
+      "std": 8.127632038911978,
+      "median": 15.7227206930554,
+      "min": 7.739357191316149,
+      "max": 39.19505283664916
+    },
+    "NOR": {
+      "mean": 73.48179947811556,
+      "std": 3.6373018947019364,
+      "median": 73.49640272089528,
+      "min": 65.89562967222543,
+      "max": 80.6134916258501
+    }
+  }
+}

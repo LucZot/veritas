@@ -1,0 +1,60 @@
+{
+  "llm_provider": "openrouter",
+  "execution_mode": "langgraph",
+  "context_length": 16384,
+  "max_output_tokens": 16384,
+  "prompt_verbosity": "standard",
+  "temperature": 0.2,
+  "models": {
+    "pi": "openai/gpt-5.2",
+    "imaging_discussion": "openai/gpt-5.2",
+    "imaging_execution": "openai/gpt-5.2",
+    "statistician_discussion": "openai/gpt-5-mini",
+    "statistician_coding": "openai/gpt-5.2",
+    "critic": "openai/gpt-5-mini"
+  },
+  "dataset_path": "$BIO_DATA_ROOT/ACDC/database",
+  "dataset": {
+    "name": "acdc",
+    "domain": "cardiac_mri",
+    "modality": "Cine MRI (short-axis stack)",
+    "available_groups": [
+      "DCM",
+      "HCM",
+      "MINF",
+      "NOR",
+      "RV"
+    ],
+    "available_observations": [
+      "ED",
+      "ES"
+    ],
+    "patient_metadata_fields": [
+      "height",
+      "weight",
+      "ed_frame",
+      "es_frame",
+      "num_frames"
+    ],
+    "ground_truth_structures": [
+      "LV",
+      "RV",
+      "Myo"
+    ],
+    "domain_notes": "Cardiac MRI with temporal phases: ED (end-diastole) and ES (end-systole). LVEF = ((LVEDV - LVESV) / LVEDV) \u00d7 100. Patient groups: DCM (dilated cardiomyopathy), HCM (hypertrophic cardiomyopathy), MINF (myocardial infarction), NOR (normal controls), RV (right ventricle abnormality)."
+  },
+  "sat_cache_database": "$BIO_DATA_ROOT/sat_cache/acdc",
+  "use_ground_truth": false,
+  "enable_critic": true,
+  "enable_critic_phase1": false,
+  "enable_critic_phase3": false,
+  "run_phase1": true,
+  "run_phase2a": true,
+  "run_phase2b": true,
+  "run_phase3": true,
+  "output_path": "results/experiments/exp_20260305_003219_or_gpt52_acdc_01_16/cardiac_01_dcm_lvef_lower/run_000",
+  "experiment_name": "cardiac_01_dcm_lvef_lower",
+  "description": "Default configuration with OpenRouter GPT-5.2 and 16k context window",
+  "hypothesis": "DCM patients show significantly lower LVEF than normal controls",
+  "max_transient_retries_per_phase": 1
+}

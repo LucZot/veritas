@@ -1,0 +1,44 @@
+{
+  "llm_provider": "ollama",
+  "context_length": 16384,
+  "max_output_tokens": 16384,
+  "prompt_verbosity": "standard",
+  "temperature": 0.2,
+
+  "models": {
+    "pi": "gpt-oss:20b",
+    "imaging_discussion": "gpt-oss:20b",
+    "imaging_execution": "gpt-oss:20b",
+    "statistician_discussion": "qwen3:8b",
+    "statistician_coding": "qwen3-coder:30b",
+    "critic": "qwen3:8b"
+  },
+
+  "hypothesis": "DCM patients show significantly lower LVEF than normal controls",
+
+  "dataset_path": "__DATA_ROOT__/ACDC/database",
+  "dataset": {
+    "name": "acdc",
+    "domain": "cardiac_mri",
+    "modality": "Cine MRI (short-axis stack)",
+    "available_groups": ["DCM", "HCM", "MINF", "NOR", "RV"],
+    "available_observations": ["ED", "ES"],
+    "patient_metadata_fields": ["height", "weight", "ed_frame", "es_frame", "num_frames"],
+    "ground_truth_structures": ["LV", "RV", "Myo"],
+    "domain_notes": "Cardiac MRI with temporal phases: ED (end-diastole) and ES (end-systole). LVEF = ((LVEDV - LVESV) / LVEDV) × 100. Patient groups: DCM (dilated cardiomyopathy), HCM (hypertrophic cardiomyopathy), MINF (myocardial infarction), NOR (normal controls), RV (right ventricle abnormality)."
+  },
+  "sat_cache_database": "__DATA_ROOT__/sat_cache/acdc",
+  "use_ground_truth": false,
+  "enable_critic": true,
+  "enable_critic_phase1": false,
+  "enable_critic_phase3": false,
+
+  "run_phase1": true,
+  "run_phase2a": true,
+  "run_phase2b": true,
+  "run_phase3": true,
+
+  "output_path": "outputs/workflow",
+  "experiment_name": "dcm_lvef_baseline",
+  "description": "Baseline experiment testing LVEF differences between DCM and NOR"
+}

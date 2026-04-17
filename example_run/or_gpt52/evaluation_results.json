@@ -1,0 +1,62 @@
+[
+  {
+    "hypothesis_id": "cardiac_01_dcm_lvef_lower",
+    "run_id": "run_000",
+    "output_dir": "example_run/or_gpt52/cardiac_01_dcm_lvef_lower/run_000",
+    "verdict": "YES",
+    "p_value": 7.477333222870397e-31,
+    "effect_size": -8.58745523166442,
+    "test_used": "Welch two-sample t-test (independent, two-sided)",
+    "sample_sizes": {
+      "DCM": 30,
+      "NOR": 30
+    },
+    "n_total": 60,
+    "confidence": "high",
+    "reasoning": "DCM shows markedly lower mean LVEF than NOR (18.49% vs 73.48%) with an overwhelmingly significant Welch t-test result (p=7.48e-31) in the hypothesized direction.",
+    "evidence_label_reported": "SUPPORTED",
+    "expected_conclusion": "YES",
+    "is_correct": true,
+    "expected_label": "SUPPORTED",
+    "is_label_correct": true,
+    "expected_invalid_subtype": null,
+    "complexity_tier": "L2",
+    "control_type": "positive_control",
+    "control_category": "scientific",
+    "evidence_label_raw": "SUPPORTED",
+    "evidence_label": "SUPPORTED",
+    "power_at_sesoi": 0.8725281996590666,
+    "sesoi_value": 0.8,
+    "sesoi_profile": "loose",
+    "test_family": "group_difference",
+    "direction_intent": "negative",
+    "direction_groups": [
+      "DCM",
+      "NOR"
+    ],
+    "completed_all_phases": true,
+    "parse_method": "config",
+    "parse_error": null,
+    "failure_code": null,
+    "failure_stage": null,
+    "phase1_feasibility_status": "TESTABLE",
+    "phase1_invalid_subtype": null,
+    "early_stop_type": null,
+    "phase2b_consistent": true,
+    "phase2b_mismatches": [],
+    "warnings": [
+      "ci_missing"
+    ],
+    "has_dataset_limitation": false,
+    "coding_trials_phase2a": 2,
+    "coding_trials_phase2b": 1,
+    "coding_trials_total": 3,
+    "phase2a_unique_patients": 60,
+    "phase2b_sample_coverage": 1.0,
+    "phase2b_group_subset_violation": null,
+    "phase2b_missing_planned_groups": [],
+    "phase2b_n_total_sum_mismatch": false,
+    "phase2b_literal_pvalue_assignment": false,
+    "phase2b_boundary_pvalue_005": false
+  }
+]

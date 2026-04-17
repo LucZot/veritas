@@ -1,0 +1,6017 @@
+{
+  "dataset_registry": {
+    "acdc": {
+      "name": "acdc",
+      "dataset_path": "__DATA_ROOT__/ACDC/database",
+      "sat_cache_database": "__DATA_ROOT__/sat_cache/acdc",
+      "domain": "cardiac_mri",
+      "modality": "Cine MRI (short-axis stack)",
+      "available_groups": [
+        "DCM",
+        "HCM",
+        "MINF",
+        "NOR",
+        "RV"
+      ],
+      "available_observations": [
+        "ED",
+        "ES"
+      ],
+      "patient_metadata_fields": [
+        "group",
+        "height",
+        "weight",
+        "ed_frame",
+        "es_frame",
+        "num_frames"
+      ],
+      "ground_truth_structures": [
+        "LV",
+        "RV",
+        "Myo"
+      ],
+      "domain_notes": "Cardiac cine MRI dataset with two labeled cardiac phases per subject: ED and ES. Provides pathology group labels and ground-truth segmentations for LV, RV, and Myo."
+    },
+    "ucsf_pdgm": {
+      "name": "ucsf_pdgm",
+      "dataset_path": "__DATA_ROOT__/UCSF-PDGM",
+      "sat_cache_database": "__DATA_ROOT__/sat_cache/ucsf_pdgm",
+      "domain": "brain_glioma_mri",
+      "modality": "Multi-sequence MRI (T1, T1c, T2, FLAIR)",
+      "available_groups": [
+        "GradeII",
+        "GradeIII",
+        "GradeIV"
+      ],
+      "available_observations": [
+        "T1",
+        "T1c",
+        "T2",
+        "FLAIR"
+      ],
+      "patient_metadata_fields": [
+        "group",
+        "age",
+        "sex",
+        "idh_status",
+        "mgmt_status",
+        "codeletion_1p19q",
+        "survival_days",
+        "survival_status",
+        "extent_of_resection"
+      ],
+      "ground_truth_structures": [
+        "brain tumor",
+        "necrotic brain tumor core",
+        "brain edema",
+        "enhancing brain tumor"
+      ],
+      "domain_notes": "Preoperative diffuse glioma MRI dataset with group labels (GradeII/GradeIII/GradeIV), patient-level metadata fields (e.g., age, sex, idh_status, mgmt_status, extent_of_resection, survival_days, survival_status), and tumor subregion segmentations (whole tumor, enhancing tumor, necrotic core, edema)."
+    }
+  },
+  "tier_registry": {
+    "L0": {
+      "name": "Untestable / Out-of-Scope",
+      "description": "Requires metadata, structures, modalities, or measurements not available in the dataset registry or not exposed through the current SAT-only analysis interface.",
+      "expected_label": "INVALID"
+    },
+    "L1": {
+      "name": "Metadata-Only (Univariate)",
+      "description": "Uses only metadata fields (no segmentation-derived measurements) and univariate analyses (single predictor/outcome). Includes simple survival comparisons with a single grouping variable (e.g., KM/log-rank) as long as no multivariable adjustment is required.",
+      "expected_labels_typical": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNDERPOWERED"
+      ]
+    },
+    "L2": {
+      "name": "Imaging-Only (Single Metric)",
+      "description": "Uses a single segmentation-derived measurement per patient (volume, EF, mass) with univariate statistics (group differences / correlations).",
+      "expected_labels_typical": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNDERPOWERED"
+      ]
+    },
+    "L3": {
+      "name": "Engineered Imaging Features",
+      "description": "Uses engineered imaging features that combine multiple basic measurements (ratios, fractions, indices) with univariate statistics.",
+      "expected_labels_typical": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNDERPOWERED"
+      ]
+    },
+    "L4": {
+      "name": "Mixed (Metadata + Imaging)",
+      "description": "Combines metadata and imaging-derived measurements in low-dimensional (bivariate) analyses, stratified analyses, or fixed-threshold rules (no tuning). Includes survival with a single imaging-derived predictor.",
+      "expected_labels_typical": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNDERPOWERED"
+      ]
+    },
+    "L5": {
+      "name": "Multivariate / Survival / Advanced",
+      "description": "Requires multivariable models (>=2 predictors/covariates), confound adjustment, or protocol-heavy procedures (e.g., variable selection, threshold search, interactions). Survival is L5 only when multivariable (e.g., CoxPH with covariates).",
+      "expected_labels_typical": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNDERPOWERED",
+        "INVALID"
+      ]
+    }
+  },
+  "metric_catalog": {
+    "acdc": {
+      "LVEDV_ml": "Volume of LV cavity at ED (mL)",
+      "LVESV_ml": "Volume of LV cavity at ES (mL)",
+      "LVEF_pct": "((LVEDV - LVESV) / LVEDV) * 100",
+      "LVSV_ml": "LVEDV - LVESV",
+      "RVEDV_ml": "Volume of RV cavity at ED (mL)",
+      "RVESV_ml": "Volume of RV cavity at ES (mL)",
+      "RVEF_pct": "((RVEDV - RVESV) / RVEDV) * 100",
+      "RVSV_ml": "RVEDV - RVESV",
+      "MyoMass_g": "Volume(Myo@ED) * 1.05 g/mL",
+      "MyoMassToLVEDV": "MyoMass_g / LVEDV_ml",
+      "LVESVToLVEDV": "LVESV_ml / LVEDV_ml",
+      "BSA_m2": "sqrt(height_cm * weight_kg / 3600) (Mosteller)",
+      "LVEDV_indexed_ml_m2": "LVEDV_ml / BSA_m2"
+    },
+    "ucsf_pdgm": {
+      "WT_ml": "Whole tumor volume (brain tumor) (mL)",
+      "ET_ml": "Enhancing tumor volume (mL)",
+      "NEC_ml": "Necrotic core volume (mL)",
+      "EDema_ml": "Edema volume (mL)",
+      "enhancing_fraction": "ET_ml / WT_ml",
+      "necrotic_fraction": "NEC_ml / WT_ml",
+      "edema_fraction": "EDema_ml / WT_ml"
+    }
+  },
+  "hypotheses": [
+    {
+      "id": "cardiac_27_left_atrial_volume_higher_hcm",
+      "hypothesis": "HCM patients have higher left atrial fibrosis burden than normal controls on late gadolinium enhancement MRI",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "HCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "left heart atrium"
+        ],
+        "observations": [
+          "LGE"
+        ],
+        "modalities": [
+          "LGE MRI"
+        ],
+        "derived_metrics": [
+          "LA_fibrosis_burden"
+        ]
+      },
+      "complexity": {
+        "tier": "L0",
+        "data": "untestable",
+        "analysis": "group_difference",
+        "tags": [
+          "untestable"
+        ]
+      },
+      "control": {
+        "type": "untestable_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "INVALID",
+        "expected_invalid_subtype": "UNTESTABLE_MISSING_MODALITY",
+        "rationale": "ACDC provides cine short-axis MRI and standard cardiac structures, but not late-gadolinium-enhancement (LGE) MRI required to quantify left-atrial fibrosis burden. Therefore the target quantity is not available with the current dataset modalities/interface.",
+        "source": "capability_spec"
+      },
+      "analysis_constraints": {
+        "no_proxy_measurement": {
+          "level": "required",
+          "forbid": [
+            "proxy_substitution",
+            "synthetic_data"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cardiac_28_lv_global_longitudinal_strain_lower_dcm",
+      "hypothesis": "DCM patients have lower global longitudinal strain (GLS) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo"
+        ],
+        "observations": [
+          "full_cycle"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "GLS_pct"
+        ]
+      },
+      "complexity": {
+        "tier": "L0",
+        "data": "untestable",
+        "analysis": "group_difference",
+        "tags": [
+          "untestable"
+        ]
+      },
+      "control": {
+        "type": "untestable_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "INVALID",
+        "expected_invalid_subtype": "UNTESTABLE_MISSING_MEASUREMENT",
+        "rationale": "GLS is not directly available from the current segmentation-derived metrics (volume/mass/EF). Without a strain extraction module, this is not testable within the present framework constraints.",
+        "source": "capability_spec"
+      },
+      "analysis_constraints": {
+        "no_proxy_measurement": {
+          "level": "required",
+          "forbid": [
+            "proxy_substitution",
+            "synthetic_data"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cardiac_32_systolic_bp_higher_dcm",
+      "hypothesis": "DCM patients have higher systolic blood pressure than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "systolic_bp"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L0",
+        "data": "untestable",
+        "analysis": "group_difference",
+        "tags": [
+          "untestable"
+        ]
+      },
+      "control": {
+        "type": "untestable_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "INVALID",
+        "expected_invalid_subtype": "UNTESTABLE_MISSING_METADATA_FIELD",
+        "rationale": "Blood pressure is not present in the ACDC metadata fields (only height/weight/frames), so this cannot be tested with the current data interface.",
+        "source": "capability_spec"
+      }
+    },
+    {
+      "id": "cardiac_04_rv_volume_similar",
+      "hypothesis": "Right ventricular end-diastolic volume is significantly larger in normal controls compared to DCM patients",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "NOR",
+          "DCM"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "RV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "RVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 0.050120239262001376,
+          "alpha": 0.05,
+          "effect_size": -0.29555555555555557,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 146.4903852367401,
+            "group_b": 171.44170222091674
+          },
+          "group_means": {
+            "group_a": 148.62172788302104,
+            "group_b": 182.38577841161094
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.30984024353692824,
+            "normality_p_b": 0.3839057363880364,
+            "levene_variance_p": 0.029438373500027655,
+            "levene_variance_stat": 4.9852728305267755
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -2.534093872805932,
+            "welch_t_p_value": 0.01467563030031718,
+            "students_t_stat": -2.534093872805932,
+            "students_t_p_value": 0.013996703203793802
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=146.49, med_b=171.44; Mann-Whitney U p=5.01e-02; r_rb=-0.296; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_06_height_lv_volume",
+      "hypothesis": "Patient height correlates with left ventricular end-diastolic volume",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "height"
+        ],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "correlation",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 150,
+          "p_value": 9.809352311966518e-05,
+          "alpha": 0.05,
+          "effect_size": 0.31265128301341977,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "positive",
+          "ci_95": [
+            0.16042527188174605,
+            0.450350068134635
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": 0.3005410287593086,
+              "p_value": 0.00018634949702916136
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9635
+        },
+        "rationale": "Spearman rho=0.313, p=9.81e-05; n=150; power=0.96"
+      },
+      "analysis_constraints": {
+        "group_adjustment": {
+          "level": "recommended"
+        }
+      }
+    },
+    {
+      "id": "cardiac_24_height_weight_correlation",
+      "hypothesis": "Patient height positively correlates with body weight in ACDC",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "positive"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "height",
+          "weight"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "correlation",
+        "tags": [
+          "metadata_only"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 150,
+          "p_value": 4.9544957702503546e-11,
+          "alpha": 0.05,
+          "effect_size": 0.5038305000918142,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "positive",
+          "ci_95": [
+            0.3737444908367269,
+            0.6144782004137899
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": 0.4983996420561706,
+              "p_value": 8.571604349978684e-11
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9635
+        },
+        "rationale": "Spearman rho=0.504, p=4.95e-11; n=150; power=0.96"
+      },
+      "analysis_constraints": {
+        "group_adjustment": {
+          "level": "recommended"
+        }
+      }
+    },
+    {
+      "id": "cardiac_25_ed_frame_weight_correlation",
+      "hypothesis": "ED frame index correlates with body weight in ACDC",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "ed_frame",
+          "weight"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "correlation",
+        "tags": [
+          "metadata_only",
+          "nonsense_control"
+        ]
+      },
+      "control": {
+        "type": "no_effect_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 150,
+          "p_value": 0.427138632897635,
+          "alpha": 0.05,
+          "effect_size": -0.06531491136249305,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "negative",
+          "ci_95": [
+            -0.2232425059578721,
+            0.09595392176751015
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": -0.047771504123087095,
+              "p_value": 0.5615665803754138
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9635
+        },
+        "rationale": "Spearman rho=-0.065, p=4.27e-01; n=150; power=0.96"
+      },
+      "analysis_constraints": {
+        "group_adjustment": {
+          "level": "recommended"
+        }
+      }
+    },
+    {
+      "id": "cardiac_26_num_frames_weight_correlation",
+      "hypothesis": "Number of cine frames correlates with body weight in ACDC",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "num_frames",
+          "weight"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "correlation",
+        "tags": [
+          "metadata_only",
+          "nonsense_control"
+        ]
+      },
+      "control": {
+        "type": "no_effect_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 150,
+          "p_value": 0.18176579434239942,
+          "alpha": 0.05,
+          "effect_size": 0.10961801905869958,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "positive",
+          "ci_95": [
+            -0.05155206120810857,
+            0.2652230361362917
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": 0.09771620813637218,
+              "p_value": 0.23419895443351876
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9635
+        },
+        "rationale": "Spearman rho=0.110, p=1.82e-01; n=150; power=0.96"
+      },
+      "analysis_constraints": {
+        "group_adjustment": {
+          "level": "recommended"
+        }
+      }
+    },
+    {
+      "id": "cardiac_01_dcm_lvef_lower",
+      "hypothesis": "DCM patients show significantly lower LVEF than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": -1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 16.697590816281306,
+            "group_b": 62.29993900571614
+          },
+          "group_means": {
+            "group_a": 19.75970655529651,
+            "group_b": 62.37765545933198
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.2791994581367233,
+            "normality_p_b": 0.6054788490348009,
+            "levene_variance_p": 0.04767778080062879,
+            "levene_variance_stat": 4.09302843733476
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -22.89043484571426,
+            "welch_t_p_value": 7.408100589039094e-29,
+            "students_t_stat": -22.890434845714257,
+            "students_t_p_value": 9.944994310848714e-31
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=16.70, med_b=62.30; Mann-Whitney U p=3.02e-11; r_rb=-1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_02_lv_mass_dcm",
+      "hypothesis": "Left ventricular myocardial mass is significantly higher in DCM patients compared to normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "MyoMass_g"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.1967402228021653e-09,
+          "alpha": 0.05,
+          "effect_size": 0.8911111111111112,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 168.21993827819824,
+            "group_b": 101.37501532030106
+          },
+          "group_means": {
+            "group_a": 165.5834587438297,
+            "group_b": 99.6434416151333
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.7658851643660084,
+            "normality_p_b": 0.22385909921146985,
+            "levene_variance_p": 0.49744993006543214,
+            "levene_variance_stat": 0.46621932173473357
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 9.177189586269686,
+            "welch_t_p_value": 9.952398146985794e-13,
+            "students_t_stat": 9.177189586269686,
+            "students_t_p_value": 6.772557802811525e-13
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=168.22, med_b=101.38; Mann-Whitney U p=3.20e-09; r_rb=0.891; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_03_dcm_lvef_higher",
+      "hypothesis": "DCM patients show significantly higher LVEF than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": -1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 16.697590816281306,
+            "group_b": 62.29993900571614
+          },
+          "group_means": {
+            "group_a": 19.75970655529651,
+            "group_b": 62.37765545933198
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.2791994581367233,
+            "normality_p_b": 0.6054788490348009,
+            "levene_variance_p": 0.04767778080062879,
+            "levene_variance_stat": 4.09302843733476
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -22.89043484571426,
+            "welch_t_p_value": 7.408100589039094e-29,
+            "students_t_stat": -22.890434845714257,
+            "students_t_p_value": 9.944994310848714e-31
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=16.70, med_b=62.30; Mann-Whitney U p=3.02e-11; r_rb=-1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_07_dcm_lvedv_higher",
+      "hypothesis": "DCM patients have significantly larger LV end-diastolic volume (LVEDV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3383888204288e-11,
+          "alpha": 0.05,
+          "effect_size": 0.9977777777777779,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 281.17752777290343,
+            "group_b": 127.72068999862671
+          },
+          "group_means": {
+            "group_a": 283.1420627808253,
+            "group_b": 129.8781709384918
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.7657532152729165,
+            "normality_p_b": 0.9744932945944953,
+            "levene_variance_p": 0.007587711081240119,
+            "levene_variance_stat": 7.653928173651092
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 14.247260766222546,
+            "welch_t_p_value": 2.6809943075676537e-18,
+            "students_t_stat": 14.247260766222546,
+            "students_t_p_value": 1.3442284242006233e-20
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=281.18, med_b=127.72; Mann-Whitney U p=3.34e-11; r_rb=0.998; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_08_dcm_lvesv_higher",
+      "hypothesis": "DCM patients have significantly larger LV end-systolic volume (LVESV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.0179667984904466e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 229.87442016601562,
+            "group_b": 50.53405251693726
+          },
+          "group_means": {
+            "group_a": 228.59877138322193,
+            "group_b": 49.294364741834
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.847589709497258,
+            "normality_p_b": 0.6462318962330809,
+            "levene_variance_p": 7.029525368141888e-06,
+            "levene_variance_stat": 24.38367723606349
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 17.8669368610778,
+            "welch_t_p_value": 1.3062596872589407e-18,
+            "students_t_stat": 17.8669368610778,
+            "students_t_p_value": 2.959491542634408e-25
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=229.87, med_b=50.53; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_09_hcm_lv_mass_higher",
+      "hypothesis": "HCM patients have significantly higher left ventricular myocardial mass than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "HCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "MyoMass_g"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3519512970119317e-08,
+          "alpha": 0.05,
+          "effect_size": 0.8311111111111111,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 160.65171894096136,
+            "group_b": 101.37501532030106
+          },
+          "group_means": {
+            "group_a": 174.9811201320863,
+            "group_b": 99.6434416151333
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.006585651234431198,
+            "normality_p_b": 0.22385909921146985,
+            "levene_variance_p": 0.003706435994641182,
+            "levene_variance_stat": 9.14785508483936
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 6.396773754677937,
+            "welch_t_p_value": 1.498177708973064e-07,
+            "students_t_stat": 6.396773754677937,
+            "students_t_p_value": 2.996652788900386e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=160.65, med_b=101.38; Mann-Whitney U p=3.35e-08; r_rb=0.831; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_10_hcm_lvef_higher_than_dcm",
+      "hypothesis": "HCM patients have significantly higher LVEF than DCM patients",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "HCM",
+          "DCM"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct",
+          "LVEDV_ml",
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 69.6586255206014,
+            "group_b": 16.697590816281306
+          },
+          "group_means": {
+            "group_a": 69.78396717391449,
+            "group_b": 19.75970655529651
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.5913956452448876,
+            "normality_p_b": 0.2791994581367233,
+            "levene_variance_p": 0.9539363834287774,
+            "levene_variance_stat": 0.0033656983374005735
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 21.995797534572407,
+            "welch_t_p_value": 1.2170827430165862e-29,
+            "students_t_stat": 21.995797534572407,
+            "students_t_p_value": 7.939735220051291e-30
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=69.66, med_b=16.70; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_11_minf_lvef_lower",
+      "hypothesis": "MINF patients have significantly lower LVEF than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "MINF",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct",
+          "LVEDV_ml",
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": -1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 31.1543674093858,
+            "group_b": 62.29993900571614
+          },
+          "group_means": {
+            "group_a": 30.78647429864811,
+            "group_b": 62.37765545933198
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.33769738651878217,
+            "normality_p_b": 0.6054788490348009,
+            "levene_variance_p": 0.02323087642968098,
+            "levene_variance_stat": 5.435216176516461
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -17.294882915915956,
+            "welch_t_p_value": 1.9914056336118033e-23,
+            "students_t_stat": -17.294882915915956,
+            "students_t_p_value": 1.4571193820526578e-24
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=31.15, med_b=62.30; Mann-Whitney U p=3.02e-11; r_rb=-1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_12_rv_rvef_lower",
+      "hypothesis": "RV abnormality patients have significantly lower RVEF than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "RV",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "RV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "RVEF_pct",
+          "RVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3519512970119317e-08,
+          "alpha": 0.05,
+          "effect_size": -0.8311111111111111,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 38.53773262874559,
+            "group_b": 50.97223971025012
+          },
+          "group_means": {
+            "group_a": 34.34129172498525,
+            "group_b": 52.59040276086133
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.11661098036062925,
+            "normality_p_b": 0.2079435676952176,
+            "levene_variance_p": 0.10545811054919925,
+            "levene_variance_stat": 2.7047744992102296
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -6.298222337437114,
+            "welch_t_p_value": 1.0000597460122425e-07,
+            "students_t_stat": -6.298222337437113,
+            "students_t_p_value": 4.371534887937143e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=38.54, med_b=50.97; Mann-Whitney U p=3.35e-08; r_rb=-0.831; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_13_hcm_lv_mass_lower",
+      "hypothesis": "HCM patients have significantly lower left ventricular myocardial mass than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "HCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "MyoMass_g"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3519512970119317e-08,
+          "alpha": 0.05,
+          "effect_size": 0.8311111111111111,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 160.65171894096136,
+            "group_b": 101.37501532030106
+          },
+          "group_means": {
+            "group_a": 174.9811201320863,
+            "group_b": 99.6434416151333
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.006585651234431198,
+            "normality_p_b": 0.22385909921146985,
+            "levene_variance_p": 0.003706435994641182,
+            "levene_variance_stat": 9.14785508483936
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 6.396773754677937,
+            "welch_t_p_value": 1.498177708973064e-07,
+            "students_t_stat": 6.396773754677937,
+            "students_t_p_value": 2.996652788900386e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=160.65, med_b=101.38; Mann-Whitney U p=3.35e-08; r_rb=0.831; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_14_dcm_lvedv_lower",
+      "hypothesis": "DCM patients have significantly smaller LV end-diastolic volume (LVEDV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3383888204288e-11,
+          "alpha": 0.05,
+          "effect_size": 0.9977777777777779,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 281.17752777290343,
+            "group_b": 127.72068999862671
+          },
+          "group_means": {
+            "group_a": 283.1420627808253,
+            "group_b": 129.8781709384918
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.7657532152729165,
+            "normality_p_b": 0.9744932945944953,
+            "levene_variance_p": 0.007587711081240119,
+            "levene_variance_stat": 7.653928173651092
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 14.247260766222546,
+            "welch_t_p_value": 2.6809943075676537e-18,
+            "students_t_stat": 14.247260766222546,
+            "students_t_p_value": 1.3442284242006233e-20
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=281.18, med_b=127.72; Mann-Whitney U p=3.34e-11; r_rb=0.998; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_15_dcm_lvesv_lower",
+      "hypothesis": "DCM patients have significantly smaller LV end-systolic volume (LVESV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.0179667984904466e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 229.87442016601562,
+            "group_b": 50.53405251693726
+          },
+          "group_means": {
+            "group_a": 228.59877138322193,
+            "group_b": 49.294364741834
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.847589709497258,
+            "normality_p_b": 0.6462318962330809,
+            "levene_variance_p": 7.029525368141888e-06,
+            "levene_variance_stat": 24.38367723606349
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 17.8669368610778,
+            "welch_t_p_value": 1.3062596872589407e-18,
+            "students_t_stat": 17.8669368610778,
+            "students_t_p_value": 2.959491542634408e-25
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=229.87, med_b=50.53; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_16_rv_rvef_higher",
+      "hypothesis": "RV abnormality patients have significantly higher RVEF than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "RV",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "RV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "RVEF_pct",
+          "RVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.3519512970119317e-08,
+          "alpha": 0.05,
+          "effect_size": -0.8311111111111111,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 38.53773262874559,
+            "group_b": 50.97223971025012
+          },
+          "group_means": {
+            "group_a": 34.34129172498525,
+            "group_b": 52.59040276086133
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.11661098036062925,
+            "normality_p_b": 0.2079435676952176,
+            "levene_variance_p": 0.10545811054919925,
+            "levene_variance_stat": 2.7047744992102296
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -6.298222337437114,
+            "welch_t_p_value": 1.0000597460122425e-07,
+            "students_t_stat": -6.298222337437113,
+            "students_t_p_value": 4.371534887937143e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=38.54, med_b=50.97; Mann-Whitney U p=3.35e-08; r_rb=-0.831; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_19_hcm_lvedv_lower_than_nor",
+      "hypothesis": "HCM patients have significantly smaller LV end-diastolic volume (LVEDV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "HCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "LVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 0.6204037206277525,
+          "alpha": 0.05,
+          "effect_size": 0.0755555555555556,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 141.59749471569063,
+            "group_b": 127.72068999862671
+          },
+          "group_means": {
+            "group_a": 132.11651762256622,
+            "group_b": 129.8781709384918
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.7550674988938537,
+            "normality_p_b": 0.9744932945944953,
+            "levene_variance_p": 0.5566988674841928,
+            "levene_variance_stat": 0.34949023114527283
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 0.27610296965687453,
+            "welch_t_p_value": 0.7834833900956556,
+            "students_t_stat": 0.2761029696568746,
+            "students_t_p_value": 0.783450420403586
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=141.60, med_b=127.72; Mann-Whitney U p=6.20e-01; r_rb=0.076; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_20_hcm_lvesv_lower_than_nor",
+      "hypothesis": "HCM patients have significantly smaller LV end-systolic volume (LVESV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "HCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ES"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 0.016283322893916402,
+          "alpha": 0.05,
+          "effect_size": -0.3622222222222222,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 36.572558130264284,
+            "group_b": 50.53405251693726
+          },
+          "group_means": {
+            "group_a": 39.79125970039368,
+            "group_b": 49.294364741834
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.17293630271969102,
+            "normality_p_b": 0.6462318962330809,
+            "levene_variance_p": 0.39929370599466385,
+            "levene_variance_stat": 0.7210417299870449
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -2.365043984786891,
+            "welch_t_p_value": 0.02146807683707194,
+            "students_t_stat": -2.365043984786891,
+            "students_t_p_value": 0.021393888468433556
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=36.57, med_b=50.53; Mann-Whitney U p=1.63e-02; r_rb=-0.362; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_30_rv_rvedv_higher_than_nor",
+      "hypothesis": "RV abnormality patients have significantly larger RV end-diastolic volume (RVEDV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "RV",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "RV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "RVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 6.282800125085632e-06,
+          "alpha": 0.05,
+          "effect_size": 0.6799999999999999,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 211.73891221141815,
+            "group_b": 146.4903852367401
+          },
+          "group_means": {
+            "group_a": 216.63781629695893,
+            "group_b": 148.62172788302104
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.04383624236064851,
+            "normality_p_b": 0.30984024353692824,
+            "levene_variance_p": 0.1753717208432963,
+            "levene_variance_stat": 1.8821650545002804
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 5.108659079496806,
+            "welch_t_p_value": 5.847914100168642e-06,
+            "students_t_stat": 5.108659079496806,
+            "students_t_p_value": 3.785791051845412e-06
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=211.74, med_b=146.49; Mann-Whitney U p=6.28e-06; r_rb=0.680; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_31_rv_rvedv_lower_than_nor",
+      "hypothesis": "RV abnormality patients have significantly smaller RVEDV than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "RV",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "RV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "RVEDV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 6.282800125085632e-06,
+          "alpha": 0.05,
+          "effect_size": 0.6799999999999999,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 211.73891221141815,
+            "group_b": 146.4903852367401
+          },
+          "group_means": {
+            "group_a": 216.63781629695893,
+            "group_b": 148.62172788302104
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.04383624236064851,
+            "normality_p_b": 0.30984024353692824,
+            "levene_variance_p": 0.1753717208432963,
+            "levene_variance_stat": 1.8821650545002804
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 5.108659079496806,
+            "welch_t_p_value": 5.847914100168642e-06,
+            "students_t_stat": 5.108659079496806,
+            "students_t_p_value": 3.785791051845412e-06
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=211.74, med_b=146.49; Mann-Whitney U p=6.28e-06; r_rb=0.680; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_21_dcm_lvesv_lvedv_ratio_higher",
+      "hypothesis": "DCM patients have significantly higher LVESV/LVEDV ratio than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "LVESVToLVEDV"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 0.833024091837187,
+            "group_b": 0.3770006099428386
+          },
+          "group_means": {
+            "group_a": 0.8024029344470349,
+            "group_b": 0.3762234454066802
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.27919945813672276,
+            "normality_p_b": 0.6054788490347989,
+            "levene_variance_p": 0.047677780800628594,
+            "levene_variance_stat": 4.093028437334763
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 22.890434845714253,
+            "welch_t_p_value": 7.408100589039252e-29,
+            "students_t_stat": 22.890434845714253,
+            "students_t_p_value": 9.944994310848714e-31
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=0.83, med_b=0.38; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_22_hcm_mass_to_volume_ratio_higher_than_dcm",
+      "hypothesis": "HCM patients have significantly higher LV mass-to-volume ratio (myocardial mass / LVEDV) than DCM patients",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "HCM",
+          "DCM"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo",
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "MyoMassToLVEDV"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 1.250915941219276,
+            "group_b": 0.5842641943674776
+          },
+          "group_means": {
+            "group_a": 1.3378738492860605,
+            "group_b": 0.591469886018732
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.07484971746832432,
+            "normality_p_b": 0.41590969323742166,
+            "levene_variance_p": 7.222669763764966e-07,
+            "levene_variance_stat": 30.884241054444278
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 12.700631801910877,
+            "welch_t_p_value": 1.3294095407117094e-14,
+            "students_t_stat": 12.700631801910877,
+            "students_t_p_value": 2.145024207638368e-18
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=1.25, med_b=0.58; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_23_dcm_mass_to_volume_ratio_lower_than_nor",
+      "hypothesis": "DCM patients have significantly lower LV mass-to-volume ratio (myocardial mass / LVEDV) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "Myo",
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "MyoMassToLVEDV"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 7.599145368665679e-07,
+          "alpha": 0.05,
+          "effect_size": -0.7444444444444445,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 0.5842641943674776,
+            "group_b": 0.7706351863868999
+          },
+          "group_means": {
+            "group_a": 0.591469886018732,
+            "group_b": 0.7723128979425223
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.41590969323742166,
+            "normality_p_b": 0.9652914405622683,
+            "levene_variance_p": 0.2330124212385011,
+            "levene_variance_stat": 1.4525572793787038
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -6.26378519027622,
+            "welch_t_p_value": 6.203900325221325e-08,
+            "students_t_stat": -6.26378519027622,
+            "students_t_p_value": 4.9871822717477194e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=0.58, med_b=0.77; Mann-Whitney U p=7.60e-07; r_rb=-0.744; power=0.86"
+      }
+    },
+    {
+      "id": "cardiac_05_weight_lvef_correlation",
+      "hypothesis": "Patient body weight correlates with LVEF in the combined DCM and normal population",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "weight"
+        ],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "correlation",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "UNDERPOWERED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 0.7422259130878393,
+          "alpha": 0.05,
+          "effect_size": -0.04335374144951801,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "negative",
+          "ci_95": [
+            -0.2940458210630113,
+            0.21291940650448052
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": -0.08653021385386576,
+              "p_value": 0.5109267871201265
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.6469
+        },
+        "rationale": "Spearman rho=-0.043, p=7.42e-01; n=60; power=0.65"
+      },
+      "analysis_constraints": {
+        "group_adjustment": {
+          "level": "recommended"
+        }
+      }
+    },
+    {
+      "id": "cardiac_17_nor_weight_lvef_correlation",
+      "hypothesis": "In normal controls, patient body weight correlates with LVEF",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "weight"
+        ],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct",
+          "LVEDV_ml",
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "correlation",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "UNDERPOWERED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 30,
+          "p_value": 0.7221912380216167,
+          "alpha": 0.05,
+          "effect_size": -0.06771360466094815,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "negative",
+          "ci_95": [
+            -0.41779648944299475,
+            0.2998773174038392
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": -0.12685151680241039,
+              "p_value": 0.5041476676539258
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.3627
+        },
+        "rationale": "Spearman rho=-0.068, p=7.22e-01; n=30; power=0.36"
+      }
+    },
+    {
+      "id": "cardiac_18_dcm_height_lvef_correlation",
+      "hypothesis": "In DCM patients, patient height correlates with LVEF",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "height"
+        ],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED",
+          "ES"
+        ],
+        "modalities": [],
+        "derived_metrics": [
+          "LVEF_pct",
+          "LVEDV_ml",
+          "LVESV_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "correlation",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "UNDERPOWERED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 30,
+          "p_value": 0.7131526560463808,
+          "alpha": 0.05,
+          "effect_size": -0.0700113222979343,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "negative",
+          "ci_95": [
+            -0.41970032941535274,
+            0.29777480915557675
+          ],
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": -0.095332862049041,
+              "p_value": 0.6162894174082317
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.3627
+        },
+        "rationale": "Spearman rho=-0.070, p=7.13e-01; n=30; power=0.36"
+      }
+    },
+    {
+      "id": "cardiac_29_lvedv_indexed_bsa_higher_dcm",
+      "hypothesis": "DCM patients have higher LVEDV indexed to body surface area (LVEDV/BSA) than normal controls",
+      "dataset": {
+        "name": "acdc"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "DCM",
+          "NOR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "height",
+          "weight"
+        ],
+        "structures": [
+          "LV"
+        ],
+        "observations": [
+          "ED"
+        ],
+        "modalities": [
+          "Cine MRI"
+        ],
+        "derived_metrics": [
+          "LVEDV_indexed_ml_m2"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 60,
+          "p_value": 3.019859359162157e-11,
+          "alpha": 0.05,
+          "effect_size": 1.0,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 30,
+            "group_b": 30
+          },
+          "group_medians": {
+            "group_a": 142.3078323684706,
+            "group_b": 68.81500356445909
+          },
+          "group_means": {
+            "group_a": 148.3945253905242,
+            "group_b": 69.00291374323918
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.07445815267965354,
+            "normality_p_b": 0.21180607430549758,
+            "levene_variance_p": 0.016432243493598286,
+            "levene_variance_stat": 6.105917882110416
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 13.640955623468283,
+            "welch_t_p_value": 3.42607799772837e-17,
+            "students_t_stat": 13.640955623468283,
+            "students_t_p_value": 9.467701990902377e-20
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.8614
+        },
+        "rationale": "GT masks: med_a=142.31, med_b=68.82; Mann-Whitney U p=3.02e-11; r_rb=1.000; power=0.86"
+      }
+    },
+    {
+      "id": "glioma_30_adc_mean_survival_association",
+      "hypothesis": "Mean tumor ADC is associated with overall survival in glioblastoma patients",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [
+          "brain tumor"
+        ],
+        "observations": [
+          "ADC"
+        ],
+        "modalities": [
+          "DWI/ADC"
+        ],
+        "derived_metrics": [
+          "mean_ADC"
+        ]
+      },
+      "complexity": {
+        "tier": "L0",
+        "data": "untestable",
+        "analysis": "correlation",
+        "tags": [
+          "untestable"
+        ]
+      },
+      "control": {
+        "type": "untestable_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "INVALID",
+        "expected_invalid_subtype": "UNTESTABLE_UNSUPPORTED_MODALITY",
+        "rationale": "Although ADC/DTI-derived maps can exist in the raw UCSF-PDGM release, this benchmark version does not treat ADC/MD as supported observations/metrics and does not expose intensity-based ROI statistics (e.g., mean ADC) via the current SAT-only interface; therefore this hypothesis is untestable in-framework.",
+        "source": "capability_spec"
+      },
+      "analysis_constraints": {
+        "no_proxy_measurement": {
+          "level": "required",
+          "forbid": [
+            "proxy_substitution",
+            "synthetic_data"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_32_tumor_frontal_location_idh_association",
+      "hypothesis": "IDH-mutant gliomas are more likely to be located in the frontal lobe than IDH-wildtype gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "mutant",
+          "wildtype"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "tumor_location_lobe"
+        ]
+      },
+      "complexity": {
+        "tier": "L0",
+        "data": "untestable",
+        "analysis": "group_difference",
+        "tags": [
+          "untestable"
+        ]
+      },
+      "control": {
+        "type": "untestable_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "INVALID",
+        "expected_invalid_subtype": "UNTESTABLE_MISSING_METADATA_FIELD",
+        "rationale": "Tumor location-atlas features are not part of the UCSF-PDGM metadata fields in this framework, and SAT does not provide atlas registration outputs; therefore this is not testable here.",
+        "source": "capability_spec"
+      },
+      "analysis_constraints": {
+        "no_proxy_measurement": {
+          "level": "required",
+          "forbid": [
+            "proxy_substitution",
+            "synthetic_data"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_29_men_older_than_women_grade4",
+      "hypothesis": "In Grade IV glioblastoma patients, men are older at MRI than women",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "M",
+          "F"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "age",
+          "sex"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "group_difference",
+        "tags": [
+          "metadata_only",
+          "nonsense_control"
+        ]
+      },
+      "control": {
+        "type": "nonsense_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 396,
+          "p_value": 0.065946682167477,
+          "alpha": 0.05,
+          "effect_size": -0.10918636569570661,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 239,
+            "group_b": 157
+          },
+          "group_medians": {
+            "group_a": 60.0,
+            "group_b": 63.0
+          },
+          "group_means": {
+            "group_a": 59.19665271966527,
+            "group_b": 61.611464968152866
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.026817174099170237,
+            "normality_p_b": 0.00014344383704108124,
+            "levene_variance_p": 0.14413001657175117,
+            "levene_variance_stat": 2.141809835868431
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -1.7717024752464832,
+            "welch_t_p_value": 0.07731880525205943,
+            "students_t_stat": -1.7491118155510748,
+            "students_t_p_value": 0.08105034923185894
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9981
+        },
+        "rationale": "GT masks: med_a=60.00, med_b=63.00; Mann-Whitney U p=6.59e-02; r_rb=-0.109; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_01_volume_grade",
+      "hypothesis": "Whole tumor volume is significantly larger in Grade IV gliomas compared to Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 8.619172992258495e-10,
+          "alpha": 0.05,
+          "effect_size": 0.5061327561327562,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 90.9525,
+            "group_b": 36.947500000000005
+          },
+          "group_means": {
+            "group_a": 96.30569444444443,
+            "group_b": 49.333124999999995
+          },
+          "assumption_checks": {
+            "normality_p_a": 7.313530617457561e-07,
+            "normality_p_b": 2.496377026609706e-05,
+            "levene_variance_p": 0.004890357814688499,
+            "levene_variance_stat": 7.998590896565979
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 6.966267736736942,
+            "welch_t_p_value": 7.010746639910954e-10,
+            "students_t_stat": 5.7607250019344285,
+            "students_t_p_value": 1.554516554767272e-08
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.9999
+        },
+        "rationale": "GT masks: med_a=90.95, med_b=36.95; Mann-Whitney U p=8.62e-10; r_rb=0.506; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_05_grade2_more_enhancement",
+      "hypothesis": "Grade II gliomas have significantly larger enhancing tumor volumes than Grade IV gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeII",
+          "GradeIV"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain tumor",
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml",
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 1.8076277782925933e-33,
+          "alpha": 0.05,
+          "effect_size": -0.9942279942279942,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 56,
+            "group_b": 396
+          },
+          "group_medians": {
+            "group_a": 0.0,
+            "group_b": 18.625999999999998
+          },
+          "group_means": {
+            "group_a": 0.11658928571428571,
+            "group_b": 21.377999999999997
+          },
+          "assumption_checks": {
+            "normality_p_a": 8.006644963387168e-26,
+            "normality_p_b": 9.296080958273423e-10,
+            "levene_variance_p": 5.689633499975633e-19,
+            "levene_variance_stat": 86.66860281717867
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -26.490628016392243,
+            "welch_t_p_value": 2.7365943633810823e-90,
+            "students_t_stat": -10.004149989407354,
+            "students_t_p_value": 2.076684896545458e-21
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.9999
+        },
+        "rationale": "GT masks: med_a=0.00, med_b=18.63; Mann-Whitney U p=1.81e-33; r_rb=-0.994; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_07_grade4_more_enhancement",
+      "hypothesis": "Grade IV gliomas have significantly larger enhancing tumor volumes than Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain tumor",
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml",
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 1.8076277782925933e-33,
+          "alpha": 0.05,
+          "effect_size": 0.9942279942279941,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 18.625999999999998,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 21.377999999999997,
+            "group_b": 0.11658928571428571
+          },
+          "assumption_checks": {
+            "normality_p_a": 9.296080958273423e-10,
+            "normality_p_b": 8.006644963387168e-26,
+            "levene_variance_p": 5.689633499975633e-19,
+            "levene_variance_stat": 86.66860281717867
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 26.490628016392243,
+            "welch_t_p_value": 2.7365943633810823e-90,
+            "students_t_stat": 10.004149989407354,
+            "students_t_p_value": 2.076684896545458e-21
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.9999
+        },
+        "rationale": "GT masks: med_a=18.63, med_b=0.00; Mann-Whitney U p=1.81e-33; r_rb=0.994; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_08_grade4_more_necrosis",
+      "hypothesis": "Grade IV gliomas have significantly larger necrotic core volumes than Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain tumor",
+          "necrotic brain tumor core"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml",
+          "NEC_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 3.9019026872839803e-28,
+          "alpha": 0.05,
+          "effect_size": 0.9062950937950938,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 6.603,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 12.48066919191919,
+            "group_b": 1.1053392857142856
+          },
+          "assumption_checks": {
+            "normality_p_a": 1.6087048492708083e-74,
+            "normality_p_b": 1.1814698728909549e-27,
+            "levene_variance_p": 1.0112779241731373e-06,
+            "levene_variance_stat": 24.580862233053523
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 8.737255765082494,
+            "welch_t_p_value": 7.80485611512605e-15,
+            "students_t_stat": 5.239769617811739,
+            "students_t_p_value": 2.475672548976145e-07
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.9999
+        },
+        "rationale": "GT masks: med_a=6.60, med_b=0.00; Mann-Whitney U p=3.90e-28; r_rb=0.906; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_09_grade4_more_edema",
+      "hypothesis": "Grade IV gliomas have significantly larger edema volumes than Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain edema"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "EDema_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L2",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 0.005168974303687548,
+          "alpha": 0.05,
+          "effect_size": 0.23079004329004338,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 53.343,
+            "group_b": 36.947500000000005
+          },
+          "group_means": {
+            "group_a": 62.44702525252524,
+            "group_b": 48.111196428571425
+          },
+          "assumption_checks": {
+            "normality_p_a": 5.107581148036e-09,
+            "normality_p_b": 7.716392987558e-06,
+            "levene_variance_p": 0.3408002776442217,
+            "levene_variance_stat": 0.909344750826086
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 2.23794519197325,
+            "welch_t_p_value": 0.028363492571461466,
+            "students_t_stat": 2.261328763479989,
+            "students_t_p_value": 0.024215513518663443
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.9999
+        },
+        "rationale": "GT masks: med_a=53.34, med_b=36.95; Mann-Whitney U p=5.17e-03; r_rb=0.231; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_19_enhancing_fraction_grade4_higher",
+      "hypothesis": "Enhancing fraction (enhancing tumor volume / whole tumor volume) is higher in Grade IV gliomas than in Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "enhancing brain tumor",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "enhancing_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 1.1458958834557959e-32,
+          "alpha": 0.05,
+          "effect_size": 0.9816017316017316,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 0.22671676814065672,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 0.24089834754578446,
+            "group_b": 0.005295881124700823
+          },
+          "assumption_checks": {
+            "normality_p_a": 1.2445861322018486e-06,
+            "normality_p_b": 2.939427411395314e-24,
+            "levene_variance_p": 1.0288521927428607e-16,
+            "levene_variance_stat": 74.55824300570708
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 30.525124238778247,
+            "welch_t_p_value": 2.6164881605615206e-108,
+            "students_t_stat": 12.908412759414345,
+            "students_t_p_value": 1.1868596431648479e-32
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9376
+        },
+        "rationale": "GT masks: med_a=0.23, med_b=0.00; Mann-Whitney U p=1.15e-32; r_rb=0.982; power=0.94"
+      }
+    },
+    {
+      "id": "glioma_20_necrotic_fraction_grade4_higher",
+      "hypothesis": "Necrotic fraction (necrotic core volume / whole tumor volume) is higher in Grade IV gliomas than in Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "necrotic brain tumor core",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "necrotic_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 5.420494718195616e-26,
+          "alpha": 0.05,
+          "effect_size": 0.8688672438672438,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 0.08638841669422699,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 0.12040577266387116,
+            "group_b": 0.02040486855887861
+          },
+          "assumption_checks": {
+            "normality_p_a": 8.11546040099832e-25,
+            "normality_p_b": 8.817931343817998e-21,
+            "levene_variance_p": 6.932490168599419e-08,
+            "levene_variance_stat": 30.078218472250782
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 7.004549827230981,
+            "welch_t_p_value": 7.177053281160283e-10,
+            "students_t_stat": 6.094790097297308,
+            "students_t_p_value": 2.3573768113301648e-09
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9376
+        },
+        "rationale": "GT masks: med_a=0.09, med_b=0.00; Mann-Whitney U p=5.42e-26; r_rb=0.869; power=0.94"
+      }
+    },
+    {
+      "id": "glioma_21_edema_fraction_grade4_higher",
+      "hypothesis": "Edema fraction (edema volume / whole tumor volume) is higher in Grade IV gliomas than in Grade II gliomas",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GradeIV",
+          "GradeII"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [],
+        "structures": [
+          "brain edema",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "edema_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L3",
+        "data": "imaging_only",
+        "analysis": "group_difference",
+        "tags": [
+          "imaging_only",
+          "segmentation",
+          "engineered_feature"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 452,
+          "p_value": 2.194979958719604e-29,
+          "alpha": 0.05,
+          "effect_size": -0.9283008658008658,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 396,
+            "group_b": 56
+          },
+          "group_medians": {
+            "group_a": 0.6641195550188058,
+            "group_b": 1.0
+          },
+          "group_means": {
+            "group_a": 0.6386958797903444,
+            "group_b": 0.9742992503164205
+          },
+          "assumption_checks": {
+            "normality_p_a": 0.000691908853767805,
+            "normality_p_b": 8.225153683360917e-19,
+            "levene_variance_p": 2.1425076340592193e-15,
+            "levene_variance_stat": 67.62152733928136
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -19.496073834492048,
+            "welch_t_p_value": 2.9231858423416046e-41,
+            "students_t_stat": -11.680111587508296,
+            "students_t_p_value": 1.0319182688484233e-27
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9376
+        },
+        "rationale": "GT masks: med_a=0.66, med_b=1.00; Mann-Whitney U p=2.19e-29; r_rb=-0.928; power=0.94"
+      }
+    },
+    {
+      "id": "glioma_02_idh_enhancement",
+      "hypothesis": "IDH-wildtype tumors have significantly larger enhancing tumor volumes than IDH-mutant tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "wildtype",
+          "mutant"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 495,
+          "p_value": 9.673047509134956e-29,
+          "alpha": 0.05,
+          "effect_size": 0.7105706360213988,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 392,
+            "group_b": 103
+          },
+          "group_medians": {
+            "group_a": 17.953,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 20.510227040816325,
+            "group_b": 5.278067961165049
+          },
+          "assumption_checks": {
+            "normality_p_a": 8.675460820105246e-09,
+            "normality_p_b": 1.8657842866754682e-21,
+            "levene_variance_p": 2.624730955941948e-10,
+            "levene_variance_stat": 41.64133738535061
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 10.135009181583515,
+            "welch_t_p_value": 1.2365418613519949e-19,
+            "students_t_stat": 8.93161016389306,
+            "students_t_p_value": 8.356832866870312e-18
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "GT masks: med_a=17.95, med_b=0.00; Mann-Whitney U p=9.67e-29; r_rb=0.711; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_04_idh_mutant_more_necrosis",
+      "hypothesis": "IDH-mutant tumors have significantly more necrotic core volume than IDH-wildtype tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "mutant",
+          "wildtype"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "necrotic brain tumor core"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "NEC_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 495,
+          "p_value": 3.7143868706357085e-26,
+          "alpha": 0.05,
+          "effect_size": -0.6742124034079651,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 103,
+            "group_b": 392
+          },
+          "group_medians": {
+            "group_a": 0.0,
+            "group_b": 6.117
+          },
+          "group_means": {
+            "group_a": 4.695747572815534,
+            "group_b": 11.630469387755102
+          },
+          "assumption_checks": {
+            "normality_p_a": 7.782796736139293e-39,
+            "normality_p_b": 3.374643124519553e-24,
+            "levene_variance_p": 0.0006172108669784484,
+            "levene_variance_stat": 11.875997413521352
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -3.392940825423757,
+            "welch_t_p_value": 0.0009182057311889094,
+            "students_t_stat": -4.162648933976624,
+            "students_t_p_value": 3.712721855457628e-05
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "GT masks: med_a=0.00, med_b=6.12; Mann-Whitney U p=3.71e-26; r_rb=-0.674; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_06_age_volume_correlation",
+      "hypothesis": "In Grade IV glioblastoma patients, patient age at diagnosis correlates with whole tumor volume",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "correlation",
+        "direction_intent": "non_directional"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "group",
+          "age"
+        ],
+        "structures": [
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "correlation",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Spearman",
+          "test_family": "correlation"
+        },
+        "statistics": {
+          "n_total": 396,
+          "p_value": 0.5898842048043764,
+          "alpha": 0.05,
+          "effect_size": -0.027166841109963667,
+          "effect_size_type": "spearman_rho",
+          "direction_observed": "negative",
+          "ci_95": [
+            -0.12537919711209106,
+            0.07157280238059845
+          ],
+          "sensitivity": {
+            "all_grades_spearman": {
+              "test_name": "Spearman",
+              "test_family": "correlation",
+              "p_value": 0.1124816678181669,
+              "effect_size": 0.07142593715873896,
+              "effect_size_type": "spearman_rho",
+              "n_total": 495,
+              "ci_95": [
+                -0.016814265312969548,
+                0.15856213137149805
+              ],
+              "direction_observed": "positive",
+              "parametric_sensitivity": {
+                "pearson": {
+                  "r": 0.038195758006549,
+                  "p_value": 0.3964585956172146
+                }
+              }
+            },
+            "all_grades_grade_adjusted_ols": {
+              "test_name": "OLS",
+              "test_family": "regression",
+              "p_value": 0.08104492487094489,
+              "effect_size": -0.3407345393405159,
+              "effect_size_type": "regression_beta",
+              "n_total": 495,
+              "r_squared": 0.06846974073083867,
+              "direction_observed": "negative",
+              "ci_95": [
+                -0.7236751305806823,
+                0.04220605189965054
+              ]
+            }
+          },
+          "parametric_sensitivity": {
+            "pearson": {
+              "r": -0.06846784800975328,
+              "p_value": 0.17389890519328857
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "Spearman rho=-0.027, p=5.90e-01; n=396; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_10_idh_wildtype_more_necrosis",
+      "hypothesis": "IDH-wildtype tumors have significantly larger necrotic core volumes than IDH-mutant tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "wildtype",
+          "mutant"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "brain tumor",
+          "necrotic brain tumor core"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml",
+          "NEC_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 495,
+          "p_value": 3.7143868706357085e-26,
+          "alpha": 0.05,
+          "effect_size": 0.6742124034079651,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 392,
+            "group_b": 103
+          },
+          "group_medians": {
+            "group_a": 6.117,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 11.630469387755102,
+            "group_b": 4.695747572815534
+          },
+          "assumption_checks": {
+            "normality_p_a": 3.374643124519553e-24,
+            "normality_p_b": 7.782796736139293e-39,
+            "levene_variance_p": 0.0006172108669784484,
+            "levene_variance_stat": 11.875997413521352
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 3.392940825423757,
+            "welch_t_p_value": 0.0009182057311889094,
+            "students_t_stat": 4.162648933976624,
+            "students_t_p_value": 3.712721855457628e-05
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "GT masks: med_a=6.12, med_b=0.00; Mann-Whitney U p=3.71e-26; r_rb=0.674; power=1.00"
+      }
+    },
+    {
+      "id": "glioma_17_grade2_idh_wildtype_more_enhancement",
+      "hypothesis": "In WHO Grade II diffuse glioma patients, IDH-wildtype tumors have significantly larger enhancing tumor volumes than IDH-mutant tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "wildtype",
+          "mutant"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "UNDERPOWERED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 56,
+          "p_value": 0.4234211628158745,
+          "alpha": 0.05,
+          "effect_size": 0.09565217391304337,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 10,
+            "group_b": 46
+          },
+          "group_medians": {
+            "group_a": 0.0,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 0.4471,
+            "group_b": 0.04473913043478261
+          },
+          "assumption_checks": {
+            "normality_p_a": 6.298990049884533e-07,
+            "normality_p_b": 7.959795808443487e-19,
+            "levene_variance_p": 0.06080074977280992,
+            "levene_variance_stat": 3.667072558617229
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 0.9005516860353311,
+            "welch_t_p_value": 0.3911009563799537,
+            "students_t_stat": 1.9149601976587476,
+            "students_t_p_value": 0.060800749772809845
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 0.6149
+        },
+        "rationale": "GT masks: med_a=0.00, med_b=0.00; Mann-Whitney U p=4.23e-01; r_rb=0.096; power=0.61"
+      }
+    },
+    {
+      "id": "glioma_22_enhancing_fraction_idh_wildtype_higher",
+      "hypothesis": "IDH-wildtype tumors have higher enhancing fraction than IDH-mutant tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "wildtype",
+          "mutant"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "enhancing brain tumor",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "enhancing_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 495,
+          "p_value": 1.0722902297860866e-34,
+          "alpha": 0.05,
+          "effect_size": 0.7848722013077076,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 392,
+            "group_b": 103
+          },
+          "group_medians": {
+            "group_a": 0.2241561694368461,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 0.23720146160746652,
+            "group_b": 0.04266299236301056
+          },
+          "assumption_checks": {
+            "normality_p_a": 5.4044925158510885e-08,
+            "normality_p_b": 5.522727499102265e-15,
+            "levene_variance_p": 2.2290245000863823e-11,
+            "levene_variance_stat": 46.90248410287466
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": 17.55538615618441,
+            "welch_t_p_value": 6.370382596122482e-47,
+            "students_t_stat": 13.049157961200976,
+            "students_t_p_value": 1.2202618293874547e-33
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9946
+        },
+        "rationale": "GT masks: med_a=0.22, med_b=0.00; Mann-Whitney U p=1.07e-34; r_rb=0.785; power=0.99"
+      }
+    },
+    {
+      "id": "glioma_31_1p19q_codeleted_enhancing_fraction_lower",
+      "hypothesis": "In lower-grade gliomas (Grade II/III), 1p/19q codeleted tumors have lower enhancing fraction than 1p/19q intact tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "group_difference",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "codeleted",
+          "intact"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "codeletion_1p19q"
+        ],
+        "structures": [
+          "enhancing brain tumor",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "enhancing_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "group_difference",
+        "tags": [
+          "mixed",
+          "segmentation"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "INCONCLUSIVE",
+        "expected_label": "UNDERPOWERED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Mann-Whitney U",
+          "test_family": "group_diff"
+        },
+        "statistics": {
+          "n_total": 99,
+          "p_value": 0.7670226361219467,
+          "alpha": 0.05,
+          "effect_size": 0.03935599284436497,
+          "effect_size_type": "rank_biserial",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 13,
+            "group_b": 86
+          },
+          "group_medians": {
+            "group_a": 0.0,
+            "group_b": 0.0
+          },
+          "group_means": {
+            "group_a": 0.004518499386303857,
+            "group_b": 0.022357849341446003
+          },
+          "assumption_checks": {
+            "normality_p_a": 6.426290091108948e-05,
+            "normality_p_b": 3.918830333534458e-36,
+            "levene_variance_p": 0.5212720934755987,
+            "levene_variance_stat": 0.4143834494818371
+          },
+          "parametric_sensitivity": {
+            "welch_t_stat": -1.6035868564830194,
+            "welch_t_p_value": 0.11213777012830309,
+            "students_t_stat": -0.6437262224593907,
+            "students_t_p_value": 0.5212720934755988
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.3836
+        },
+        "rationale": "GT masks: med_a=0.00, med_b=0.00; Mann-Whitney U p=7.67e-01; r_rb=0.039; power=0.38"
+      }
+    },
+    {
+      "id": "glioma_03_enhancement_survival",
+      "hypothesis": "Enhancing tumor volume negatively correlates with overall survival in glioblastoma patients",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days"
+        ],
+        "structures": [
+          "brain tumor",
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "WT_ml",
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.01166167421564941,
+          "alpha": 0.05,
+          "effect_size": 1.0102736209131589,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "hazard_ratio": 1.0102736209131589,
+          "hazard_ratio_ci": [
+            1.0022811201770268,
+            1.01832985633084
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "ET_ml": {
+                  "p_value": 0.6105651256736444,
+                  "test_statistic": 0.2593528191099538
+                }
+              },
+              "min_p_value": 0.6105651256736444,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH: p=1.17e-02; HR=1.0102736209131589; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_11_mgmt_methylated_survival_longer",
+      "hypothesis": "In Grade IV glioblastoma patients, MGMT-methylated tumors are associated with longer overall survival than MGMT-unmethylated tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "methylated",
+          "unmethylated"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "mgmt_status",
+          "survival_days"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 378,
+          "p_value": 0.01291089501176601,
+          "alpha": 0.05,
+          "effect_size": 0.6911617705625294,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 273,
+            "group_b": 105
+          },
+          "hazard_ratio": 0.6911617705625294,
+          "hazard_ratio_ci": [
+            0.5160076438442054,
+            0.925770381090247
+          ],
+          "median_survival": {
+            "group_a": 605.0,
+            "group_b": 446.0
+          },
+          "n_events": {
+            "group_a": 151,
+            "group_b": 66
+          },
+          "n_censored": {
+            "group_a": 122,
+            "group_b": 39
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.20961599439935244,
+                  "test_statistic": 1.5740764926615405
+                }
+              },
+              "min_p_value": 0.20961599439935244,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "log-rank: p=1.29e-02; HR=0.6911617705625294; median=605.0 vs 446.0; events=151/273 vs 66/105; n=378; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_13_gtr_survival_longer",
+      "hypothesis": "In Grade IV glioblastoma patients, gross total resection (GTR) is associated with longer overall survival than subtotal resection (STR)",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "GTR",
+          "STR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days",
+          "extent_of_resection"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 354,
+          "p_value": 0.020534460988654333,
+          "alpha": 0.05,
+          "effect_size": 0.712664098199709,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 227,
+            "group_b": 127
+          },
+          "hazard_ratio": 0.712664098199709,
+          "hazard_ratio_ci": [
+            0.5344737059963454,
+            0.9502621198474398
+          ],
+          "median_survival": {
+            "group_a": 639.0,
+            "group_b": 475.0
+          },
+          "n_events": {
+            "group_a": 125,
+            "group_b": 75
+          },
+          "n_censored": {
+            "group_a": 102,
+            "group_b": 52
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.8478780380562735,
+                  "test_statistic": 0.03679744253019864
+                }
+              },
+              "min_p_value": 0.8478780380562735,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "log-rank: p=2.05e-02; HR=0.712664098199709; median=639.0 vs 475.0; events=125/227 vs 75/127; n=354; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_14_idh_mutant_survival_longer_grade4",
+      "hypothesis": "In WHO Grade IV diffuse glioma patients, IDH-mutant tumors are associated with longer overall survival than IDH-wildtype tumors",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "mutant",
+          "wildtype"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status",
+          "survival_days"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "underpowered_control",
+        "category": "scientific"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 5.866368227698772e-06,
+          "alpha": 0.05,
+          "effect_size": 0.16346902547847092,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 28,
+            "group_b": 367
+          },
+          "hazard_ratio": 0.16346902547847092,
+          "hazard_ratio_ci": [
+            0.06703533643058569,
+            0.39862740628670396
+          ],
+          "median_survival": {
+            "group_a": null,
+            "group_b": 499.0
+          },
+          "n_events": {
+            "group_a": 5,
+            "group_b": 223
+          },
+          "n_censored": {
+            "group_a": 23,
+            "group_b": 144
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.6052950557274062,
+                  "test_statistic": 0.26708331235701915
+                }
+              },
+              "min_p_value": 0.6052950557274062,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.7204
+        },
+        "rationale": "log-rank: p=5.87e-06; HR=0.16346902547847092; median=NR vs 499.0; events=5/28 vs 223/367; n=395; power=0.72"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_15_enhancement_survival_positive",
+      "hypothesis": "Enhancing tumor volume positively correlates with overall survival in glioblastoma patients",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.01166167421564941,
+          "alpha": 0.05,
+          "effect_size": 1.0102736209131589,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "hazard_ratio": 1.0102736209131589,
+          "hazard_ratio_ci": [
+            1.0022811201770268,
+            1.01832985633084
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "ET_ml": {
+                  "p_value": 0.6105651256736444,
+                  "test_statistic": 0.2593528191099538
+                }
+              },
+              "min_p_value": 0.6105651256736444,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH: p=1.17e-02; HR=1.0102736209131589; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_16_gtr_survival_shorter",
+      "hypothesis": "In Grade IV glioblastoma patients, gross total resection (GTR) is associated with shorter overall survival than subtotal resection (STR)",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "loose",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "GTR",
+          "STR"
+        ]
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days",
+          "extent_of_resection"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "negative_control",
+        "category": "sanity"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ]
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 354,
+          "p_value": 0.020534460988654333,
+          "alpha": 0.05,
+          "effect_size": 0.712664098199709,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "n_per_group": {
+            "group_a": 227,
+            "group_b": 127
+          },
+          "hazard_ratio": 0.712664098199709,
+          "hazard_ratio_ci": [
+            0.5344737059963454,
+            0.9502621198474398
+          ],
+          "median_survival": {
+            "group_a": 639.0,
+            "group_b": 475.0
+          },
+          "n_events": {
+            "group_a": 125,
+            "group_b": 75
+          },
+          "n_censored": {
+            "group_a": 102,
+            "group_b": 52
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.8478780380562735,
+                  "test_statistic": 0.03679744253019864
+                }
+              },
+              "min_p_value": 0.8478780380562735,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.8,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "log-rank: p=2.05e-02; HR=0.712664098199709; median=639.0 vs 475.0; events=125/227 vs 75/127; n=354; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_24_necrotic_fraction_survival_negative_grade4",
+      "hypothesis": "In Grade IV glioblastoma patients, higher necrotic fraction correlates with worse overall survival",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "coxph"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "effect_size": "hazard_ratio"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [
+          "necrotic brain tumor core",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "necrotic_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.5812917064421386,
+          "alpha": 0.05,
+          "effect_size": 0.7315270299174664,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "hazard_ratio": 0.7315270299174664,
+          "hazard_ratio_ci": [
+            0.24083560585970426,
+            2.221979568135801
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "necrotic_fraction": {
+                  "p_value": 0.9028201527673239,
+                  "test_statistic": 0.014908307971254996
+                }
+              },
+              "min_p_value": 0.9028201527673239,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH: p=5.81e-01; HR=0.7315270299174664; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_25_mgmt_survival_longer_adjust_age_eor",
+      "hypothesis": "In Grade IV glioblastoma patients, MGMT promoter methylation is associated with longer survival after adjusting for age and extent of resection",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "coxph"
+        ],
+        "covariates": [
+          "age",
+          "extent_of_resection"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "effect_size": "hazard_ratio"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "mgmt_status",
+          "age",
+          "extent_of_resection",
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L5",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "advanced_analysis"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH (multivariate)",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.010991669778141993,
+          "alpha": 0.05,
+          "effect_size": 0.6983630916911607,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "hazard_ratio": 0.6983630916911607,
+          "hazard_ratio_ci": [
+            0.5295518232104207,
+            0.9209882516873926
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "age": {
+                  "p_value": 0.027330399658148975,
+                  "test_statistic": 4.869816930206184
+                },
+                "eor_binary": {
+                  "p_value": 0.2834089758271847,
+                  "test_statistic": 1.1506698243751172
+                },
+                "mgmt_binary": {
+                  "p_value": 0.614763302582427,
+                  "test_statistic": 0.2532966623758318
+                }
+              },
+              "min_p_value": 0.027330399658148975,
+              "any_p_below_0_05": true,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH (multivariate): p=1.10e-02; HR=0.6983630916911607; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        },
+        "adjust_for": {
+          "level": "required",
+          "fields": [
+            "age",
+            "extent_of_resection"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_26_age_survival_worse_adjust_mgmt_eor",
+      "hypothesis": "In Grade IV glioblastoma patients, older age is associated with worse survival after adjusting for MGMT status and extent of resection",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "coxph"
+        ],
+        "covariates": [
+          "mgmt_status",
+          "extent_of_resection"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "effect_size": "hazard_ratio"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "age",
+          "mgmt_status",
+          "extent_of_resection",
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L5",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "advanced_analysis"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH (multivariate)",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 6.048214969165924e-14,
+          "alpha": 0.05,
+          "effect_size": 1.044584472168011,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "hazard_ratio": 1.044584472168011,
+          "hazard_ratio_ci": [
+            1.0327559598481586,
+            1.0565484605433315
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "age": {
+                  "p_value": 0.027330399658148975,
+                  "test_statistic": 4.869816930206184
+                },
+                "eor_binary": {
+                  "p_value": 0.28340897582718516,
+                  "test_statistic": 1.1506698243751154
+                },
+                "mgmt_binary": {
+                  "p_value": 0.6147633025824261,
+                  "test_statistic": 0.25329666237583315
+                }
+              },
+              "min_p_value": 0.027330399658148975,
+              "any_p_below_0_05": true,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH (multivariate): p=6.05e-14; HR=1.044584472168011; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        },
+        "adjust_for": {
+          "level": "required",
+          "fields": [
+            "mgmt_status",
+            "extent_of_resection"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_27_idh_enhancing_fraction_adjust_grade",
+      "hypothesis": "After adjusting for WHO grade, IDH-wildtype status is associated with higher enhancing fraction than IDH-mutant status",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "regression",
+        "direction_intent": "positive"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status"
+        ],
+        "structures": [
+          "enhancing brain tumor",
+          "brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "enhancing_fraction"
+        ]
+      },
+      "complexity": {
+        "tier": "L5",
+        "data": "mixed",
+        "analysis": "regression",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "advanced_analysis"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "OLS",
+          "test_family": "regression"
+        },
+        "statistics": {
+          "n_total": 495,
+          "p_value": 9.504342315333083e-06,
+          "alpha": 0.05,
+          "effect_size": 0.085420033116567,
+          "effect_size_type": "regression_beta",
+          "direction_observed": "positive",
+          "ci_95": [
+            0.04791566853409557,
+            0.12292439769903843
+          ],
+          "r_squared": 0.3501843094453918
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 1.0
+        },
+        "rationale": "OLS: beta=0.0854, p=9.50e-06; R2=0.3501843094453918; n=495"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "regression"
+        },
+        "adjust_for": {
+          "level": "required",
+          "fields": [
+            "group"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_28_men_survival_longer_than_women_grade4",
+      "hypothesis": "In Grade IV glioblastoma patients, men have longer overall survival than women",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "M",
+          "F"
+        ]
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "sex",
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [],
+        "observations": [],
+        "modalities": [],
+        "derived_metrics": []
+      },
+      "complexity": {
+        "tier": "L1",
+        "data": "metadata_only",
+        "analysis": "survival",
+        "tags": [
+          "metadata_only",
+          "nonsense_control",
+          "survival"
+        ]
+      },
+      "control": {
+        "type": "nonsense_control",
+        "category": "sanity"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.7886270097356637,
+          "alpha": 0.05,
+          "effect_size": 1.0373486079275218,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 238,
+            "group_b": 157
+          },
+          "hazard_ratio": 1.0373486079275218,
+          "hazard_ratio_ci": [
+            0.7965852978321418,
+            1.350881239332042
+          ],
+          "median_survival": {
+            "group_a": 494.0,
+            "group_b": 561.0
+          },
+          "n_events": {
+            "group_a": 132,
+            "group_b": 96
+          },
+          "n_censored": {
+            "group_a": 106,
+            "group_b": 61
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.1573734413477503,
+                  "test_statistic": 1.999284865813192
+                }
+              },
+              "min_p_value": 0.1573734413477503,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9981
+        },
+        "rationale": "log-rank: p=7.89e-01; HR=1.0373486079275218; median=494.0 vs 561.0; events=132/238 vs 96/157; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        }
+      }
+    },
+    {
+      "id": "glioma_12_grade4_cet_volume_gt_10ml_survival_shorter",
+      "hypothesis": "In Grade IV glioblastoma patients, contrast-enhancing tumor volume greater than 10 mL is associated with shorter overall survival than contrast-enhancing tumor volume of 10 mL or less",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative",
+        "direction_groups": [
+          "ET_gt_10ml",
+          "ET_le_10ml"
+        ]
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "logrank",
+          "coxph"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L4",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival",
+          "fixed_threshold"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "NO",
+        "expected_label": "REFUTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "log-rank",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.0695947146044132,
+          "alpha": 0.05,
+          "effect_size": 1.3006483887357114,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "n_per_group": {
+            "group_a": 278,
+            "group_b": 117
+          },
+          "hazard_ratio": 1.3006483887357114,
+          "hazard_ratio_ci": [
+            0.978838768996507,
+            1.7282583043324873
+          ],
+          "median_survival": {
+            "group_a": 475.0,
+            "group_b": 657.0
+          },
+          "n_events": {
+            "group_a": 159,
+            "group_b": 69
+          },
+          "n_censored": {
+            "group_a": 119,
+            "group_b": 48
+          },
+          "sensitivity": {
+            "median_split_threshold_et_ml": 18.619,
+            "median_split_logrank": {
+              "test_name": "log-rank",
+              "test_family": "survival",
+              "p_value": 0.10586257646314925,
+              "effect_size": 1.2413300132611296,
+              "effect_size_type": "hazard_ratio",
+              "n_a": 197,
+              "n_b": 198,
+              "n_total": 395,
+              "events_a": 110,
+              "events_b": 118,
+              "censored_a": 87,
+              "censored_b": 80,
+              "median_survival_a": 450.0,
+              "median_survival_b": 611.0,
+              "hazard_ratio": 1.2413300132611296,
+              "hazard_ratio_ci": [
+                0.95546967520986,
+                1.6127149210511906
+              ],
+              "direction_observed": "negative",
+              "assumption_checks": {
+                "cox_ph": {
+                  "status": "ok",
+                  "time_transform": "rank",
+                  "per_covariate": {
+                    "group": {
+                      "p_value": 0.4789688864346202,
+                      "test_statistic": 0.501210123635879
+                    }
+                  },
+                  "min_p_value": 0.4789688864346202,
+                  "any_p_below_0_05": false,
+                  "note": "Audit-only proportional hazards test; does not change labels or primary test."
+                }
+              }
+            }
+          },
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "group": {
+                  "p_value": 0.6320906512384061,
+                  "test_statistic": 0.22923633813069452
+                }
+              },
+              "min_p_value": 0.6320906512384061,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9949
+        },
+        "rationale": "log-rank: p=6.96e-02; HR=1.3006483887357114; median=475.0 vs 657.0; events=159/278 vs 69/117; n=395; power=0.99"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        },
+        "threshold_policy": {
+          "level": "required",
+          "mode": "fixed",
+          "threshold_value": 10.0,
+          "threshold_unit": "mL",
+          "tuning_forbidden": true
+        }
+      }
+    },
+    {
+      "id": "glioma_18_grade4_cet_volume_survival_adjust_eor",
+      "hypothesis": "In Grade IV glioblastoma patients, contrast-enhancing tumor volume is associated with overall survival after adjusting for extent of resection",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "negative"
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "coxph"
+        ],
+        "covariates": [
+          "extent_of_resection"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "effect_size": "hazard_ratio"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "extent_of_resection",
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L5",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival",
+          "multivariate"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH (multivariate)",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 395,
+          "p_value": 0.0377380089348024,
+          "alpha": 0.05,
+          "effect_size": 1.008447674738904,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "negative",
+          "hazard_ratio": 1.008447674738904,
+          "hazard_ratio_ci": [
+            1.0004767614030676,
+            1.0164820932573275
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "ET_ml": {
+                  "p_value": 0.6857444767557068,
+                  "test_statistic": 0.1637309701033277
+                },
+                "eor_binary": {
+                  "p_value": 0.15572991763086272,
+                  "test_statistic": 2.0152080952709595
+                }
+              },
+              "min_p_value": 0.15572991763086272,
+              "any_p_below_0_05": false,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9986
+        },
+        "rationale": "Cox PH (multivariate): p=3.77e-02; HR=1.008447674738904; median=NR vs NR; n=395; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        },
+        "adjust_for": {
+          "level": "required",
+          "fields": [
+            "extent_of_resection"
+          ]
+        }
+      }
+    },
+    {
+      "id": "glioma_23_survival_idh_adjust_age_grade_mgmt_eor_et",
+      "hypothesis": "In glioma patients, IDH-mutant status is associated with longer overall survival after adjusting for age, WHO grade, MGMT status, extent of resection, and contrast-enhancing tumor volume",
+      "dataset": {
+        "name": "ucsf_pdgm"
+      },
+      "sesoi_profile": "standard",
+      "meta_analysis": {
+        "test_family": "survival",
+        "direction_intent": "positive",
+        "direction_groups": [
+          "mutant",
+          "wildtype"
+        ]
+      },
+      "analysis_intent": {
+        "analysis_type": "survival",
+        "preferred_methods": [
+          "coxph"
+        ],
+        "covariates": [
+          "age",
+          "group",
+          "mgmt_status",
+          "extent_of_resection",
+          "ET_ml"
+        ],
+        "time_field": "survival_days",
+        "event_field": "survival_status",
+        "effect_size": "hazard_ratio"
+      },
+      "requirements": {
+        "metadata_fields": [
+          "idh_status",
+          "age",
+          "group",
+          "mgmt_status",
+          "extent_of_resection",
+          "survival_days",
+          "survival_status"
+        ],
+        "structures": [
+          "enhancing brain tumor"
+        ],
+        "observations": [],
+        "modalities": [
+          "MRI"
+        ],
+        "derived_metrics": [
+          "ET_ml"
+        ]
+      },
+      "complexity": {
+        "tier": "L5",
+        "data": "mixed",
+        "analysis": "survival",
+        "tags": [
+          "mixed",
+          "segmentation",
+          "survival",
+          "multivariate",
+          "stress_test"
+        ]
+      },
+      "control": {
+        "type": "positive_control",
+        "category": "scientific"
+      },
+      "ground_truth": {
+        "expected_conclusion": "YES",
+        "expected_label": "SUPPORTED",
+        "source": "dataset_derived",
+        "reference_test": {
+          "test_name": "Cox PH (multivariate)",
+          "test_family": "survival"
+        },
+        "statistics": {
+          "n_total": 494,
+          "p_value": 3.6818489166529195e-05,
+          "alpha": 0.05,
+          "effect_size": 0.21974105594352614,
+          "effect_size_type": "hazard_ratio",
+          "direction_observed": "positive",
+          "hazard_ratio": 0.21974105594352614,
+          "hazard_ratio_ci": [
+            0.10699054668934917,
+            0.45131213141079074
+          ],
+          "assumption_checks": {
+            "cox_ph": {
+              "status": "ok",
+              "time_transform": "rank",
+              "per_covariate": {
+                "ET_ml": {
+                  "p_value": 0.6779464609479373,
+                  "test_statistic": 0.17244667578208045
+                },
+                "age": {
+                  "p_value": 0.0009321747163142333,
+                  "test_statistic": 10.957659757185876
+                },
+                "eor_binary": {
+                  "p_value": 0.47875897031285575,
+                  "test_statistic": 0.5016889055061806
+                },
+                "grade_III": {
+                  "p_value": 0.43992099420551634,
+                  "test_statistic": 0.5964884305364468
+                },
+                "grade_IV": {
+                  "p_value": 0.11914927424069054,
+                  "test_statistic": 2.428468247132302
+                },
+                "idh_binary": {
+                  "p_value": 0.2973246058558278,
+                  "test_statistic": 1.0861554658804604
+                },
+                "mgmt_binary": {
+                  "p_value": 0.3160657024464301,
+                  "test_statistic": 1.0051577131785563
+                }
+              },
+              "min_p_value": 0.0009321747163142333,
+              "any_p_below_0_05": true,
+              "note": "Audit-only proportional hazards test; does not change labels or primary test."
+            }
+          }
+        },
+        "power": {
+          "sesoi_d": 0.5,
+          "power_at_sesoi": 0.9998
+        },
+        "rationale": "Cox PH (multivariate): p=3.68e-05; HR=0.21974105594352614; median=NR vs NR; n=494; power=1.00"
+      },
+      "analysis_constraints": {
+        "test_family": {
+          "level": "required",
+          "value": "survival"
+        },
+        "adjust_for": {
+          "level": "required",
+          "fields": [
+            "age",
+            "group",
+            "mgmt_status",
+            "extent_of_resection"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "version": "5.0",
+    "description": "Tiered hypothesis bank (v5): all 64 hypotheses have dataset-derived ground_truth with full statistics (p-values, effect sizes, sample sizes, assumption checks, power analysis). L0 hypotheses have source=capability_spec (INVALID), all others have source=dataset_derived.",
+    "total_hypotheses": 64,
+    "by_dataset": {
+      "acdc": 32,
+      "ucsf_pdgm": 32
+    },
+    "by_tier": {
+      "L0": 5,
+      "L1": 9,
+      "L2": 23,
+      "L3": 6,
+      "L4": 16,
+      "L5": 5
+    },
+    "by_tier_by_dataset": {
+      "acdc": {
+        "L0": 3,
+        "L1": 3,
+        "L2": 18,
+        "L3": 3,
+        "L4": 5
+      },
+      "ucsf_pdgm": {
+        "L0": 2,
+        "L1": 6,
+        "L2": 5,
+        "L3": 3,
+        "L4": 11,
+        "L5": 5
+      }
+    },
+    "by_control_type": {
+      "untestable_control": 5,
+      "negative_control": 13,
+      "positive_control": 36,
+      "no_effect_control": 2,
+      "underpowered_control": 6,
+      "nonsense_control": 2
+    },
+    "prior_expected_labels": {
+      "INVALID": 5,
+      "REFUTED": 16,
+      "SUPPORTED": 37,
+      "UNDERPOWERED": 6
+    },
+    "prior_expected_conclusions": {
+      "INCONCLUSIVE": 11,
+      "NO": 16,
+      "YES": 37
+    },
+    "ground_truth": {
+      "status": "complete",
+      "num_with_expected_label": 64,
+      "num_total": 64,
+      "sources": {
+        "dataset_derived": 59,
+        "capability_spec": 5
+      },
+      "note": "All 64 hypotheses have ground_truth populated. L0 hypotheses use capability_spec (deterministic INVALID). L1-L5 use dataset_derived with computed statistics from GT segmentation masks and patient metadata."
+    }
+  }
+}

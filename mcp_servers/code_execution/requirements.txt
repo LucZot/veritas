@@ -1,0 +1,26 @@
+# Code Execution MCP Server Dependencies
+
+# MCP Server
+mcp>=1.0.0
+
+# Async support
+anyio>=4.0.0
+
+# Scientific computing (for code execution sandbox)
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+statsmodels>=0.14.0
+lifelines>=0.27.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Medical imaging
+nibabel>=5.0.0
+SimpleITK>=2.3.0
+
+# Serialization (for session state persistence)
+dill>=0.3.7

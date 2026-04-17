@@ -1,0 +1,71 @@
+{
+  "analysis_type": "group_difference",
+  "test_performed": "Welch two-sample t-test (independent, two-sided)",
+  "p_value": 7.477333222870397e-31,
+  "effect_size": -8.58745523166442,
+  "effect_size_type": "cohens_d",
+  "n_total": 60,
+  "sample_sizes": {
+    "DCM": 30,
+    "NOR": 30
+  },
+  "variables_tested": {
+    "outcome": "LVEF_percent",
+    "predictors": [
+      "group (DCM vs NOR)"
+    ]
+  },
+  "group_statistics": {
+    "DCM": {
+      "n": 30,
+      "mean": 18.487730383075714,
+      "std": 8.26657598466811,
+      "median": 15.7227206930554,
+      "iqr": 14.002882286003498,
+      "min": 7.739357191316149,
+      "max": 39.19505283664916
+    },
+    "NOR": {
+      "n": 30,
+      "mean": 73.48179947811556,
+      "std": 3.6994824996723104,
+      "median": 73.49640272089528,
+      "iqr": 3.6400024293229762,
+      "min": 65.89562967222543,
+      "max": 80.6134916258501
+    }
+  },
+  "test_details": {
+    "group1": "DCM",
+    "group2": "NOR",
+    "mean_difference_group1_minus_group2": -54.99406909503985,
+    "ci95_mean_difference": [
+      -58.33549352739473,
+      -51.65264466268496
+    ],
+    "t_statistic": -33.25907109853805,
+    "welch_df": 40.16809296654818
+  },
+  "data_provenance": {
+    "results_db_path": "$BIO_DATA_ROOT/sat_cache/acdc",
+    "structures": [
+      "left heart ventricle"
+    ],
+    "observations": [
+      "ED",
+      "ES"
+    ],
+    "metric_definition": "LVEF = ((LVEDV - LVESV) / LVEDV) * 100",
+    "volume_definition": "sum over mask entries of sat.calculate_volume(mask, spacing)"
+  },
+  "qc": {
+    "n_excluded": 0,
+    "exclusions": [],
+    "exclusions_truncated": false
+  },
+  "artifacts": {
+    "plot_paths": [
+      "plots/lvef_group_comparison.png"
+    ]
+  }
+}

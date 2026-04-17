@@ -1,0 +1,1472 @@
+{
+  "success": true,
+  "total_identifiers": 120,
+  "structures": [
+    "left heart ventricle"
+  ],
+  "results_database": "$BIO_DATA_ROOT/sat_cache/acdc",
+  "chunks": [
+    {
+      "chunk_index": 0,
+      "batch_size": 64,
+      "processed_count": 0,
+      "cached_count": 64,
+      "success": true,
+      "error": null
+    },
+    {
+      "chunk_index": 1,
+      "batch_size": 56,
+      "processed_count": 0,
+      "cached_count": 56,
+      "success": true,
+      "error": null
+    }
+  ],
+  "batch_size": 120,
+  "processed_count": 0,
+  "cached_count": 120,
+  "images": [
+    {
+      "patient_id": "patient001",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient001",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient002",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient002",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient003",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient003",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient004",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient004",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient005",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient005",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient006",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient006",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient007",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient007",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient008",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient008",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient009",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient009",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient010",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient010",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient011",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient011",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient012",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient012",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient013",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient013",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient014",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient014",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient015",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient015",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient016",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient016",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient017",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient017",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient018",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient018",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient019",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient019",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient020",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient020",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient101",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient101",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient106",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient106",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient113",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient113",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient117",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient117",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient122",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient122",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient131",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient131",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient132",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient132",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient133",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient133",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient136",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient136",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient149",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient149",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient061",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient061",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient062",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient062",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient063",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient063",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient064",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient064",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient065",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient065",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient066",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient066",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient067",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient067",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient068",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient068",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient069",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient069",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient070",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient070",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient071",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient071",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient072",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient072",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient073",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient073",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient074",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient074",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient075",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient075",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient076",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient076",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient077",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient077",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient078",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient078",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient079",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient079",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient080",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient080",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient102",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient102",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient107",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient107",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient110",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient110",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient123",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient123",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient125",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient125",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient128",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient128",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient130",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient130",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient139",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient139",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient144",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient144",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient150",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    },
+    {
+      "patient_id": "patient150",
+      "phase": null,
+      "success": true,
+      "num_structures": 1,
+      "database_id": "sat_nano_2026-01-20_14-18-12",
+      "cached": true,
+      "saved": true,
+      "structures": [
+        "left heart ventricle"
+      ]
+    }
+  ],
+  "errors": []
+}
