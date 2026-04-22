@@ -967,7 +967,7 @@ def _get_active_validation_code_files(workspace_dir: Path) -> list[Path]:
     if selected_path is None:
         return default_files
 
-    rel_path = str(selected_path.relative_to(workspace_dir))
+    rel_path = str(selected_path.resolve().relative_to(workspace_dir.resolve()))
     print(f"  • Validation scope: scanning active executed file `{rel_path}`")
     return [selected_path]
 
