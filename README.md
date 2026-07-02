@@ -1,9 +1,10 @@
 # VERITAS
 
-**Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing via Agentic Systems**
+**A Multi-Agent Co-Scientist for Verifiable Image-Derived Hypothesis Testing**
 
-*Lucas Stoffl, Benedikt Wiestler, Johannes C. Paetzold · [arXiv 2026](https://arxiv.org/abs/2604.12144)*
+*Lucas Stoffl, Benedikt Wiestler, Johannes C. Paetzold · ECCV 2026 · [arXiv](https://arxiv.org/abs/2604.12144)*
 
+[![ECCV 2026](https://img.shields.io/badge/ECCV-2026-3a3f5c.svg)](https://arxiv.org/abs/2604.12144)
 [![arXiv](https://img.shields.io/badge/arXiv-2604.12144-b31b1b.svg)](https://arxiv.org/abs/2604.12144)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](pyproject.toml)
@@ -13,9 +14,9 @@
 
 ---
 
-VERITAS runs biomedical hypothesis tests on multi-modal datasets end-to-end: **from a natural-language question to a statistically grounded verdict, with every intermediate artifact auditable.** A team of LLM agents formulates an analysis plan, calls a medical-imaging segmentation foundation model (SAT), writes and executes statistical code in a sandbox, and delivers a verdict that a **deterministic Evidence Classification Operator (ECO)** scores against power, directionality, and effect size — no post-hoc LLM grading, no fabricated p-values.
+VERITAS is a multi-agent co-scientist that runs biomedical hypothesis tests on multi-modal datasets end-to-end: **from a natural-language question to a statistically grounded verdict, with every intermediate artifact auditable.** A team of LLM agents formulates an analysis plan, calls a medical-imaging segmentation foundation model (SAT), writes and executes statistical code in a sandbox, and delivers a verdict that a **deterministic Evidence Classification Operator (ECO)** scores against power, directionality, and effect size — no post-hoc LLM grading, no fabricated p-values.
 
-On a 64-hypothesis benchmark (ACDC cardiac MRI + UCSF-PDGM glioma), locally-deployed VERITAS reaches **87.9% evidence-label accuracy on ACDC with zero hallucinated statistical significance**. See the [paper](https://arxiv.org/abs/2604.12144) for full results.
+On a 64-hypothesis benchmark (ACDC cardiac MRI + UCSF-PDGM glioma), VERITAS reaches **81.4% verdict accuracy with frontier models and 71.2% with local 8–30B open-weight models**, with 86.6% of statistical outputs independently re-executable and hallucinated significance kept to ≤2.7% in both settings. See the [paper](https://arxiv.org/abs/2604.12144) for full results.
 
 ## Look before you install
 
@@ -191,7 +192,7 @@ See [experiments/README.md](experiments/README.md) for all flags, the evaluation
 
 ```bibtex
 @article{stoffl2026veritas,
-  title={VERITAS: Verifiable Epistemic Reasoning for Image-Derived Hypothesis Testing via Agentic Systems},
+  title={VERITAS: A Multi-Agent Co-Scientist for Verifiable Image-Derived Hypothesis Testing},
   author={Stoffl, Lucas and Wiestler, Benedikt and Paetzold, Johannes C},
   journal={arXiv preprint arXiv:2604.12144},
   year={2026}

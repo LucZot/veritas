@@ -1,8 +1,10 @@
-"""Ground truth segmentation populator for ablation studies.
+"""Ground truth segmentation populator.
 
 Instead of running SAT inference, populate the results database with ground
-truth masks from the dataset. This allows comparing pipeline performance with
-perfect vs. predicted segmentations.
+truth masks from the dataset. Useful both for ablation studies (comparing
+pipeline performance with perfect vs. predicted segmentations) and as a way
+to skip the SAT segmentation step entirely when ground-truth masks are
+already available, no GPU/SAT setup required.
 
 Supported datasets:
 - ACDC: GT masks from *_gt.nii.gz files (labels: 0=bg, 1=RV, 2=Myo, 3=LV)
